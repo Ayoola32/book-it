@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+    use FileUpload;
+    
     public function index()
     {
         // Logic to display categories
@@ -30,11 +33,13 @@ class CategoryController extends Controller
         ]);
 
         // Logic to store a new category
+        $imagePath = $this->uploadFile($request->file('image'), 'uploads/category');
+
         $category = new Category();
         $category->title = $request->title;
         $category->slug = Str::slug($request->title) . '-' . Str::random(5) . '-' . time();
         $category->description = $request->description;
-        // $category->image = $request->file('image')->store('categories', 'public');
+        $category->image = $imagePath;
         $category->status = $request->status;
         $category->save();
 
