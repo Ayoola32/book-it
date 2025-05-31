@@ -403,7 +403,7 @@ return [
         [
             'text' => 'profile',
             'icon' => 'fas fa-fw fa-user',
-            'route' => '',
+            'route' => 'profile',
 
         ],
         [
