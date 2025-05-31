@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -14,14 +16,30 @@ class CategoryController extends Controller
 
     public function create()
     {
-        // Logic to show form for creating a new category
+        return view('backend.category.create');
         
     }
 
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:1000'],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'status' => ['required', 'boolean', 'in:0,1'],
+        ]);
+
         // Logic to store a new category
-        // Validate and save the category
+        $category = new Category();
+        $category->title = $request->title;
+        $category->slug = Str::slug($request->title) . '-' . Str::random(5) . '-' . time();
+        $category->description = $request->description;
+        // $category->image = $request->file('image')->store('categories', 'public');
+        $category->status = $request->status;
+        $category->save();
+
+        return redirect()->route('category.index')->with('success', 'Category created successfully.');  
+        
     }
 
     public function edit($id)

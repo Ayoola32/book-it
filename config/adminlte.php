@@ -338,7 +338,7 @@ return [
                 [
                     'text' => 'Add New',
                     'icon' => 'fas fa-fw fa-plus',
-                    'route' => '',
+                    'route' => 'category.create',
                     'can'   => ''
                 ],
                 [
