@@ -49,20 +49,41 @@ class CategoryController extends Controller
 
     public function edit($id)
     {
-        // Logic to show form for editing an existing category
+        $category = Category::findOrFail($id);
+        return view('backend.category.edit', compact('category'));
         
     }
 
     public function update(Request $request, $id)
     {
-        // Logic to update an existing category
-        // Validate and update the category
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:1000'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'status' => ['required', 'boolean', 'in:0,1'],
+        ]);
+
+        $category = Category::findOrFail($id);
+
+        $category->title = $request->title;
+        $category->slug = Str::slug($request->title);
+        $category->description = $request->description;
+        $category->status = $request->status;
+
+        if ($request->hasFile('image')) {
+            if ($category->image && file_exists(public_path($category->image))) {
+                unlink(public_path($category->image));
+            }
+            $category->image = $this->uploadFile($request->file('image'), 'uploads/category');
+        }
+        $category->save();
+        return redirect()->route('category.index')->with('success', 'Category updated successfully.');
     }
 
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        
+
         // Delete the image file if it exists
         if ($category->image && file_exists(public_path($category->image))) {
             unlink(public_path($category->image));
