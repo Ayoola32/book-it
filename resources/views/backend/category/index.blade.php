@@ -91,5 +91,10 @@
                 responsive: true
             });
         });
+
+        
+        $(document).ready(function() {
+            $(".alert").delay(6000).slideUp(300);
+        });
     </script>
 @endsection
