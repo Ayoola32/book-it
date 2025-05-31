@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -20,5 +21,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Profile route
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
+    // Categories routes
+    Route::resource('/category', CategoryController::class);
 
 });

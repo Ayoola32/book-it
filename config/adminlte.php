@@ -344,8 +344,8 @@ return [
                 [
                     'text' => 'View All',
                     'icon' => 'fas fa-fw fa-eye',
-                    'route' => '',
-                    'can'   => ''
+                    'route' => 'category.index',
+                    'can'   => '',
                 ],
 
             ],
