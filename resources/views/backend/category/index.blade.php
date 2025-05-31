@@ -64,7 +64,7 @@
                                                 <form action="{{ route('category.destroy', $category->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button onclick="return confirm('Category cannot be deleted - Post attached');" class="btn btn-danger btn-sm ml-2">
+                                                    <button onclick="return confirm('Are you sure');" class="btn btn-danger btn-sm ml-2">
                                                         <i class="fas fa-trash"></i> Delete
                                                     </button>
                                                 </form>
