@@ -10,11 +10,11 @@ use Illuminate\Support\Str;
 class CategoryController extends Controller
 {
     use FileUpload;
-    
+
     public function index()
     {
-        // Logic to display categories
-        return view('backend.category.index');
+        $categories = Category::latest()->get();
+        return view('backend.category.index',compact('categories'));
     }
 
     public function create()
@@ -37,7 +37,7 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->title = $request->title;
-        $category->slug = Str::slug($request->title) . '-' . Str::random(5) . '-' . time();
+        $category->slug = Str::slug($request->title);
         $category->description = $request->description;
         $category->image = $imagePath;
         $category->status = $request->status;
@@ -61,8 +61,17 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
-        // Logic to delete a category
+        $category = Category::findOrFail($id);
+        
+        // Delete the image file if it exists
+        if ($category->image && file_exists(public_path($category->image))) {
+            unlink(public_path($category->image));
+        }
+        $category->delete();
+
+        return redirect()->route('category.index')->with('success', 'Category deleted successfully.');
     }
+
     public function show($id)
     {
         // Logic to display a single category
