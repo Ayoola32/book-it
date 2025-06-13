@@ -52,17 +52,20 @@
             @include('admin.layouts.footer')
         </div>
     </div>
+    
+    {{-- JQuery --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Tabler Core -->
     <script src="{{ asset('admin/assets/dist/js/tabler.min.js?1692870487') }}" defer></script>
     <script src="{{ asset('admin/assets/dist/js/demo.min.js?1692870487') }}" defer></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Vite compiled JS -->
     @vite(['resources/js/admin/admin.js'])
 
 
-
+    @stack('scripts')
 
 </body>
 
