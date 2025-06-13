@@ -13,6 +13,10 @@
     <link href="{{ asset('admin/assets/dist/css/demo.min.css?1692870487') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css">
 
+    <!-- Vite compiled CSS -->
+    @vite(['resources/css/admin.css'])
+
+
     <style>
         @import url('https://rsms.me/inter/inter.css');
 
@@ -53,6 +57,9 @@
     <script src="{{ asset('admin/assets/dist/js/tabler.min.js?1692870487') }}" defer></script>
     <script src="{{ asset('admin/assets/dist/js/demo.min.js?1692870487') }}" defer></script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
+
+    <!-- Vite compiled JS -->
+    @vite(['resources/js/admin/admin.js'])
 
 
 

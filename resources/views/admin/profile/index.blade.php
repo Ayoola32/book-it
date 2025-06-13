@@ -1,6 +1,5 @@
 @extends('admin.layouts.master')
 @section('content')
-
     <!-- Page header -->
     <div class="page-header d-print-none">
         <div class="container-xl">
