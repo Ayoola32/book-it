@@ -62,5 +62,6 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
         ->name('logout');
 
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('profile', [DashboardController::class, 'profile'])->name('profile');
 
 });
