@@ -250,17 +250,20 @@
 
                                                     <div class="tab-pane active" id="password">
 
-                                                        <form action="" method="post">
+                                                        <form action="{{ route('admin.password.update')}}" method="post">
+                                                            @csrf
+                                                            @method('put')
                                                             <div class="card-body">
                                                                 <div class="tab-content">
-                                                                    <div class="active tab-pane" id="#password">
+                                                                    <div class="active tab-pane">
                                                                         <!-- Password -->
                                                                         <div class="tab-pane" id="password">
                                                                             <div class="form-group row mb-2">
                                                                                 <label for="inputName" class="col-sm-2 col-form-label">Old Password</label>
                                                                                 <div class="col-sm-10">
                                                                                     <input type="password" class="form-control" id="inputName"
-                                                                                     placeholder="Old Password" name="current_password"  autocomplete="current_password">
+                                                                                    placeholder="Old Password" name="current_password"  autocomplete="current_password">
+                                                                                    <x-input-error :messages="$errors->get('current_password')" class="mt-2" />
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group row mb-2">
@@ -275,18 +278,15 @@
                                                                                 <div class="col-sm-10">
                                                                                     <input type="password" class="form-control"id="inputName2" placeholder="Confirm Password" 
                                                                                         name="password_confirmation"  autocomplete="password_confirmation">
+                                                                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
                                                                         <!-- /.tab-pane -->
                                                                     </div>
                                                                     <!-- /.tab-content -->
                                                                     <div class="form-group row">
                                                                         <div class="offset-sm-2 col-sm-10">
-                                                                            <button
-                                                                                onclick="return confirm('Are you sure you want to update profile?');"
-                                                                                type="submit"
-                                                                                class="btn btn-danger">Update</button>
+                                                                            <button type="submit" class="btn btn-danger">Update</button>
                                                                         </div>
                                                                     </div>
 
