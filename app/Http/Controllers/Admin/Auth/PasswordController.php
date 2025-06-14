@@ -25,6 +25,7 @@ class PasswordController extends Controller
         $admin = Auth::guard('admin')->user();
         $admin->update(['password' => Hash::make($validated['password'])]);
 
-        return back()->with('status', 'password-updated');
+        flash()->success('Your password has been updated!');
+        return back();
     }
 }
