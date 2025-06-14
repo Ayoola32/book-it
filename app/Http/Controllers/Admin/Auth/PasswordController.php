@@ -20,10 +20,10 @@ class PasswordController extends Controller
             'current_password' => ['required', 'current_password:admin'],
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
-
-        Auth::guard('admin')->user()->update([
-            'password' => Hash::make($validated['password']),
-        ]);
+        
+        /** @var \App\Models\Admin $admin */
+        $admin = Auth::guard('admin')->user();
+        $admin->update(['password' => Hash::make($validated['password'])]);
 
         return back()->with('status', 'password-updated');
     }
