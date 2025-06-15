@@ -249,6 +249,7 @@
 
 
                                                     <div class="tab-pane active" id="password">
+<p class="text-red-600">Test: This should be red</p>
 
                                                         <form action="{{ route('admin.password.update')}}" method="post">
                                                             @csrf
