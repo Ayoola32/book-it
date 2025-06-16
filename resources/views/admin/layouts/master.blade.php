@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css">
 
     <!-- Vite compiled CSS -->
-    @vite(['resources/css/admin.css'])
+    @vite(['resources/css/app.css', 'resources/css/admin.css'])
 
 
     <style>
@@ -62,7 +62,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Vite compiled JS -->
-    @vite(['resources/js/admin/admin.js'])
+    @vite(['resources/js/app.js', 'resources/js/admin/admin.js'])
 
 
     @stack('scripts')
