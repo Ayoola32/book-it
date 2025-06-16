@@ -102,10 +102,6 @@
                                                             data-toggle="tab">Profile</a>
                                                     </li>
 
-                                                    <li class="nav-item "><a class="nav-link" href="#logs"
-                                                            data-toggle="tab">Logs</a>
-                                                    </li>
-
                                                     <li class="nav-item"><a class="nav-link" href="#bio"
                                                             data-toggle="tab">Bio</a>
                                                     </li>
@@ -149,53 +145,6 @@
                                                             </div>
                                                         </form>
 
-                                                    </div>
-
-                                                    <div class="tab-pane" id="logs">
-
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <div class="card">
-
-
-                                                                    <div class="card-body table-responsive">
-                                                                        <table class="table table-hover text-nowrap">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th>Login</th>
-                                                                                    <th>Logout</th>
-
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <tr>
-
-                                                                                    <td>00:29 | 13 Jun 2025
-                                                                                    </td>
-
-                                                                                    <td>NA
-                                                                                    </td>
-
-
-                                                                                </tr>
-                                                                                <tr>
-
-                                                                                    <td>16:57 | 12 Jun 2025
-                                                                                    </td>
-
-                                                                                    <td>NA
-                                                                                    </td>
-
-
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
                                                     </div>
 
                                                     <div class="tab-pane" id="bio">

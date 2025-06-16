@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css">
 
     <!-- Vite compiled CSS -->
-    @vite(['resources/css/app.css', 'resources/css/admin.css'])
+    @vite(['resources/css/admin.css'])
 
 
     <style>
