@@ -98,7 +98,7 @@
                                             <div class="card-header p-2">
                                                 <ul class="nav nav-pills">
 
-                                                    <li class="nav-item "><a class="nav-link" href="#settings"
+                                                    <li class="nav-item "><a class="nav-link active" href="#settings"
                                                             data-toggle="tab">Profile</a>
                                                     </li>
 
@@ -114,7 +114,7 @@
                                                             data-toggle="tab">Appointments</a>
                                                     </li>
 
-                                                    <li class="nav-item"><a class="nav-link active" href="#password"
+                                                    <li class="nav-item"><a class="nav-link" href="#password"
                                                             data-toggle="tab">Change
                                                             Password</a>
                                                     </li>
@@ -124,7 +124,7 @@
                                             <div class="card-body">
                                                 <div class="tab-content">
 
-                                                    <div class="tab-pane show" id="settings">
+                                                    <div class="tab-pane  active show" id="settings">
 
                                                         <form action="{{ route('admin.profile.update')}}" method="post" class="form-horizontal">
                                                             @csrf
@@ -246,7 +246,7 @@
                                                     </div>
 
 
-                                                    <div class="tab-pane active" id="password">
+                                                    <div class="tab-pane" id="password">
                                                         <form action="{{ route('admin.password.update')}}" method="post">
                                                             @csrf
                                                             @method('put')
