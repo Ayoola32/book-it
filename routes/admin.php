@@ -59,5 +59,6 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile-update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
 
 });

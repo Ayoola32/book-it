@@ -14,7 +14,26 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        return view('admin.profile.index');
+        $user = Auth::user();
+        return view('admin.profile.index', compact('user'));
+    }
+
+    public function profileUpdate(Request $request) : RedirectResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255']
+        ]);
+
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        flash()->success('Your profile has been updated.');
+        return back();
+
     }
 
 

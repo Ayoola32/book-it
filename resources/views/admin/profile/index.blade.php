@@ -126,27 +126,25 @@
 
                                                     <div class="tab-pane show" id="settings">
 
-                                                        <form action="" method="post" class="form-horizontal">
+                                                        <form action="{{ route('admin.profile.update')}}" method="post" class="form-horizontal">
+                                                            @csrf
                                                             <div class="form-group row mb-2">
                                                                 <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                                                                 <div class="col-sm-10">
-                                                                    <input type="text" name="name" class="form-control" id="inputName" placeholder="Name" value="">
+                                                                    <input type="text" name="name" class="form-control" id="inputName" placeholder="Name" value="{{$user->name}}">
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row mb-2">
                                                                 <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                                                 <div class="col-sm-10">
                                                                     <input
-                                                                    type="email" name="email" class="form-control " id="inputEmail" placeholder="Email" value="">
+                                                                    type="email" name="email" class="form-control " id="inputEmail" placeholder="Email" value="{{$user->email}}">
                                                                 </div>
                                                             </div>
 
                                                             <div class="form-group row">
                                                                 <div class="offset-sm-2 col-sm-10">
-                                                                    <button
-                                                                        onclick="return confirm('Are you sure you want ')"
-                                                                        type="submit"
-                                                                        class="btn btn-primary">Submit</button>
+                                                                    <button type="submit" class="btn btn-primary">Update</button>
                                                                 </div>
                                                             </div>
                                                         </form>
