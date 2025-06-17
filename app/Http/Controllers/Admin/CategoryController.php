@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\CategoryDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CategoryStoreRequest;
+use App\Models\Category;
+use App\Traits\FileUpload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class CategoryController extends Controller
 {
+    use FileUpload;
     /**
      * Display a listing of the resource.
      */
@@ -27,9 +33,27 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request)
     {
-        //
+        $imagePath = $this->uploadFile($request->file('image'), 'uploads/category');
+
+        $category = new Category();
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name);
+        $category->status = $request->status;
+        $category->show_at_trending = $request->show_at_trending;
+        $category->image = $imagePath;
+
+        // Prevent enabling show_at_trending if status is off
+        if ($category->status == 0 && $category->show_at_trending == 1) {
+            $category->show_at_trending = 0;
+            flash()->warning('Show at Trending was turned off because Status is off');
+        }
+
+        $category->save();
+
+
+        return redirect()->route('admin.category.index')->with('success', 'Category Created Successfully');
     }
 
     /**

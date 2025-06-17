@@ -11,7 +11,7 @@ trait FileUpload
     function uploadFile(UploadedFile $file, string $directory = 'uploads'): string
     {
         // Generate a unique filename
-        $filename = 'lc_' . time() . uniqid() . '.' . $file->getClientOriginalExtension();
+        $filename = 'bookease_' . time() . uniqid() . '.' . $file->getClientOriginalExtension();
 
         // check if directory exists, if not create it
         if (!is_dir(public_path($directory))) {
