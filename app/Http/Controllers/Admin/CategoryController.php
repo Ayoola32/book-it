@@ -67,9 +67,10 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $slug)
     {
-        //
+        $category = Category::where('slug', $slug)->firstOrFail();
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**

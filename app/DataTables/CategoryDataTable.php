@@ -58,7 +58,7 @@ class CategoryDataTable extends DataTable
                 <a href="" class="btn-sm text-info">
                     <i class="ti ti-list"></i>
                 </a> 
-                <a href="" class="btn-sm btn-primary">
+                <a href="' . route('admin.category.edit', $query->slug) . '" class="btn-sm btn-primary">
                     <i class="ti ti-edit"></i>
                 </a> 
                 <a href="" class="btn-sm text-red delete-item">
