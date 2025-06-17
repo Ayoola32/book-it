@@ -105,6 +105,13 @@ class CategoryController extends Controller
     public function updateShowAtTrending(Request $request, string $id)
     {
         $category = Category::findOrFail($id);
+
+        // Prevent enabling show_at_trending if status is off
+        if ($request->show_at_trending == 1 && $category->status == 0) {
+            return response()->json([
+                'error' => 'Cannot enable Show at Trending when Status is off'
+            ], 422);
+        }
         
         $category->show_at_trending = $request->show_at_trending;
         $category->save();

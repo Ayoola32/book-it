@@ -43,6 +43,10 @@
             var id = $(this).data('id');
             var status = $(this).val();
 
+            var $row = $(this).closest('tr'); // Get the row
+            var $showAtTrendingSelect = $row.find('.show_at_trending-select'); // Find show_at_trending select in the same row
+
+
             $.ajax({
                 url: '{{ route('admin.category.update-status', ':id') }}'.replace(':id', id),
                 type: 'POST',
@@ -52,6 +56,26 @@
                 },
                 success: function(response) {
                     notyf.success('Status updated successfully');
+
+                    // If status is turned off (0), also turn off show_at_trending
+                    if (status == 0 && $showAtTrendingSelect.val() == 1) {
+                        $showAtTrendingSelect.val(0); // Update the dropdown UI
+                        $.ajax({
+                            url: '{{ route('admin.category.update-show-at-trending', ':id') }}'.replace(':id', id),
+                            type: 'POST',
+                            data: {
+                                show_at_trending: 0,
+                                _token: $('meta[name="csrf-token"]').attr('content')
+
+                            },
+                            success: function () {
+                                notyf.success('Show at Trending turned off because Status is off');
+                            },
+                            error: function () {
+                                notyf.error('Failed to update Show at Trending');
+                            }
+                        });
+                    }
                 },
                 error: function(xhr) {
                     notyf.error('Failed to update status');
