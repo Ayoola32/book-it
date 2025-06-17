@@ -58,5 +58,26 @@
                 }
             });
         });
+
+        $(document).on('change', '.show_at_trending-select', function() {
+            var id = $(this).data('id');
+            var show_at_trending = $(this).val();
+
+
+            $.ajax({
+                url: '{{ route('admin.category.update-show-at-trending', ':id') }}'.replace(':id', id),
+                type: 'POST',
+                data: {
+                    show_at_trending: show_at_trending,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    notyf.success('Show at Trending updated successfully');
+                },
+                error: function(xhr) {
+                    notyf.error('Failed to update Trending Status');
+                }
+            });
+        });
     </script>
 @endpush
