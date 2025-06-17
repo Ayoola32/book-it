@@ -29,5 +29,34 @@
 @endsection
 
 @push('scripts')
-    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+    {{ $dataTable->scripts() }}
+
+    <script>
+        // Initialize Notyf
+        const notyf = new Notyf({
+            duration: 4000, 
+            position: { x: 'right', y: 'top' },
+            dismissible: true 
+        });
+
+        $(document).on('change', '.status-select', function() {
+            var id = $(this).data('id');
+            var status = $(this).val();
+
+            $.ajax({
+                url: '{{ route('admin.category.update-status', ':id') }}'.replace(':id', id),
+                type: 'POST',
+                data: {
+                    status: status,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    notyf.success('Status updated successfully');
+                },
+                error: function(xhr) {
+                    notyf.error('Failed to update status');
+                }
+            });
+        });
+    </script>
 @endpush

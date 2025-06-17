@@ -61,6 +61,8 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('/profile-update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
+    
     Route::resource('/category', CategoryController::class);
+    Route::post('/category/update-status/{id}', [CategoryController::class, 'updateStatus'])->name('category.update-status');
 
 });

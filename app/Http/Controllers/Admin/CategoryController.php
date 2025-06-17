@@ -80,6 +80,25 @@ class CategoryController extends Controller
         //
     }
 
+
+    /**
+     * Update the status of the specified resource.
+     */
+    public function updateStatus(Request $request, string $id)
+    {
+        $category = Category::findOrFail($id);
+        $category->status = $request->status;
+
+        // If status is turned off, also turn off show_at_trending
+        if ($category->status == 0 && $category->show_at_trending == 1) {
+            $category->show_at_trending = 0;
+        }
+
+        $category->save();
+
+        return response()->json(['success' => 'Status updated successfully.']);
+    }
+
     /**
      * Remove the specified resource from storage.
      */

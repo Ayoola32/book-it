@@ -27,7 +27,7 @@ class CategoryDataTable extends DataTable
         })
 
 
-                ->addColumn('status', function ($query) {
+        ->addColumn('status', function ($query) {
             $selectedDraft = $query->status == '0' ? 'selected' : '';
             $selectedPublished = $query->status == '1' ? 'selected' : '';
         
