@@ -6,7 +6,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Course Categories</h3>
+                            <h3 class="card-title">Service Categories</h3>
 
                             <!-- Page title actions -->
                             <div class="card-actions">

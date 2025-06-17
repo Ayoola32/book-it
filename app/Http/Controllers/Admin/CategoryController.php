@@ -20,7 +20,7 @@ class CategoryController extends Controller
      */
     public function index(CategoryDataTable $dataTable)
     {
-        return $dataTable->render('admin.categories.index');
+        return $dataTable->render('admin.services.categories.index');
     }
 
     /**
@@ -28,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        return view('admin.services.categories.create');
     }
 
     /**
@@ -71,7 +71,7 @@ class CategoryController extends Controller
     public function edit(string $slug)
     {
         $category = Category::where('slug', $slug)->firstOrFail();
-        return view('admin.categories.edit', compact('category'));
+        return view('admin.services.categories.edit', compact('category'));
     }
 
     /**
