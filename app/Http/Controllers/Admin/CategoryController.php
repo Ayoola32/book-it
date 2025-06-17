@@ -73,6 +73,7 @@ class CategoryController extends Controller
         $category = Category::where('slug', $slug)->firstOrFail();
         return view('admin.services.categories.edit', compact('category'));
     }
+    
 
     /**
      * Update the specified resource in storage.
