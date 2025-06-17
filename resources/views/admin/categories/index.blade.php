@@ -87,6 +87,16 @@
             var id = $(this).data('id');
             var show_at_trending = $(this).val();
 
+            var $row = $(this).closest('tr'); // Get the row
+            var $statusSelect = $row.find('.status-select'); // Find status select in the same row
+
+            // If trying to enable show_at_trending while status is off
+            if (show_at_trending == 1 && $statusSelect.val() == 0) {
+                notyf.error('Cannot enable Show at Trending when Status is off');
+                $(this).val(0); // Revert the change
+                return;
+            }
+
 
             $.ajax({
                 url: '{{ route('admin.category.update-show-at-trending', ':id') }}'.replace(':id', id),
@@ -99,7 +109,7 @@
                     notyf.success('Show at Trending updated successfully');
                 },
                 error: function(xhr) {
-                    notyf.error('Failed to update Trending Status');
+                    notyf.error('Failed to update Show at Trending');
                 }
             });
         });
