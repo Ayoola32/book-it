@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\CategoryDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryStoreRequest;
+use App\Http\Requests\Admin\CategoryUpdateRequest;
 use App\Models\Category;
 use App\Traits\FileUpload;
 use Illuminate\Http\Request;
@@ -76,9 +77,29 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryUpdateRequest $request, string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            $this->deleteFile($category->image);
+            $imagePath = $this->uploadFile($request->file('image'), 'uploads/category');
+            $category->image = $imagePath;
+        }
+
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name);
+        $category->status = $request->status;
+        $category->show_at_trending = $request->show_at_trending;
+
+        // Prevent enabling show_at_trending if status is off
+        if ($category->status == 0 && $category->show_at_trending == 1) {
+            $category->show_at_trending = 0;
+            session()->flash('warning', 'Show at Trending was turned off because Status is off');
+        }
+
+        $category->save();
+        return redirect()->route('admin.category.index')->with('success', 'Course Category Updated Successfully');
     }
 
 
