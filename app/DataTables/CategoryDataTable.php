@@ -23,7 +23,11 @@ class CategoryDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addColumn('image', function($query){
-            return '<img style="width:70px" src="' . asset($query->image) . '"></img>';
+            if ($query->image) {
+                return '<img style="width:70px" src="' . asset($query->image) . '"></img>';
+            } else {
+                return 'No Image';
+            }
         })
 
 
