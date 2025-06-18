@@ -55,7 +55,7 @@ class CategoryDataTable extends DataTable
 
         ->addColumn('action', function ($query) {
             return '
-                <a href="" class="btn-sm text-info">
+                <a href="' . route('admin.service.index', ['category' => $query->slug]) . '" class="btn-sm text-info">
                     <i class="ti ti-list"></i>
                 </a> 
                 <a href="' . route('admin.category.edit', $query->slug) . '" class="btn-sm btn-primary">
