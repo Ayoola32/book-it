@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ServiceSubCategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(["middleware" => "guest:admin", "prefix" => "admin", "as" => "admin."], function () {
@@ -66,5 +67,6 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::post('/category/update-status/{id}', [CategoryController::class, 'updateStatus'])->name('category.update-status');
     Route::post('/category/update-show-at-trending/{id}', [CategoryController::class, 'updateShowAtTrending'])->name('category.update-show-at-trending');
 
+    Route::resource('/{category}/service', ServiceSubCategoryController::class)->parameters(['service' => 'category']);
 
 });
