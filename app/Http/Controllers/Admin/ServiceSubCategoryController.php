@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ServiceSubCategoryDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ServiceStoreRequest;
 use App\Models\Category;
+use App\Models\ServiceSubCategory;
+use App\Traits\FileUpload;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class ServiceSubCategoryController extends Controller
 {
+    use FileUpload;
     /**
      * Display a listing of the resource.
      */
@@ -23,17 +28,40 @@ class ServiceSubCategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Category $category)
     {
-        //
+        return view('admin.services.service.create', compact('category'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ServiceStoreRequest $request, Category $category)
     {
-        //
+       $service = new ServiceSubCategory();
+
+        if ($request->hasFile('image')) {
+            $imagePath = $this->uploadFile($request->file('image'), 'uploads/service');
+            $service->image = $imagePath;
+        }
+
+        $service->name = $request->name;
+        $service->slug = Str::slug($request->name);
+        $service->status = $request->status;
+        $service->price = $request->price;
+        $service->sale_price = $request->sale_price;
+        $service->category_id = $category->id;
+
+        // Prevent enabling status if category is off
+        if ($category->status == 0 && $service->status == 1) {
+            $service->status = 0;
+            session()->flash('warning', 'Status was turned off because Category Status is off');
+        }
+
+        $service->save();
+        return redirect()->route('admin.service.index', $category->slug)->with('success', 'Service Created Successfully');
+
+
     }
 
     /**
