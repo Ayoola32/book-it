@@ -44,10 +44,13 @@ class ServiceSubCategoryDataTable extends DataTable
                 ';
             })
             ->addColumn('action', function ($query) {
+                $category = Category::find($query->category_id);
+                $categorySlug = $category ? $category->slug : '';
+
                 return '
-                    <a href="" class="btn-sm btn-primary">
+                    <a href="' . route('admin.service.edit', ['category' => $categorySlug, 'service' => $query->slug]) . '" class="btn-sm btn-primary">
                         <i class="ti ti-edit"></i>
-                    </a> 
+                    </a>
                     <a href="" class="btn-sm text-red delete-item">
                         <i class="ti ti-trash"></i>
                     </a>
