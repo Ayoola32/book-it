@@ -17,7 +17,7 @@ class CategoryUpdateRequest extends FormRequest
     {
         return [
             'image' => ['nullable', 'image', 'mimes:png,jpeg,jpg,webp', 'max:3000'],
-            'name' =>  ['required', 'string','max:255', Rule::unique('categories', 'name')->ignore($this->route('category'))],
+            'name' =>  ['required', 'string','max:255', Rule::unique('categories', 'name')->ignore($this->route('service_category'))],
             'status' => ['required', 'boolean'],
             'show_at_trending' => ['required', 'boolean'],
         ];

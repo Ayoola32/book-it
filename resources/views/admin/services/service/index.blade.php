@@ -6,7 +6,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">List of Service for <span class="text-blue"><a href="{{ route('admin.category.index')}}">{{ $category->name}}</a></span></h3>
+                            <h3 class="card-title">List of Service for <span class="text-blue"><a href="{{ route('admin.service_category.index')}}">{{ $category->name}}</a></span></h3>
 
 
                             <!-- Page title actions -->

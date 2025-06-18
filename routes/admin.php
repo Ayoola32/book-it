@@ -63,9 +63,9 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('/profile-update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
     
-    Route::resource('/category', CategoryController::class);
-    Route::post('/category/update-status/{id}', [CategoryController::class, 'updateStatus'])->name('category.update-status');
-    Route::post('/category/update-show-at-trending/{id}', [CategoryController::class, 'updateShowAtTrending'])->name('category.update-show-at-trending');
+    Route::resource('/service_category', CategoryController::class);
+    Route::post('/service_category/update-status/{id}', [CategoryController::class, 'updateStatus'])->name('service_category.update-status');
+    Route::post('/service_category/update-show-at-trending/{id}', [CategoryController::class, 'updateShowAtTrending'])->name('service_category.update-show-at-trending');
 
     Route::resource('/{category}/service', ServiceSubCategoryController::class)->parameters(['service' => 'category']);
 

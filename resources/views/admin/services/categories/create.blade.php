@@ -18,7 +18,7 @@
                             </div>
                         </div>
 
-                        <form action="{{route('admin.category.store')}}" method="POST" class="card" enctype="multipart/form-data">
+                        <form action="{{route('admin.service_category.store')}}" method="POST" class="card" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="mb-3">

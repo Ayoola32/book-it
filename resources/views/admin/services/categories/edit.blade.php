@@ -10,7 +10,7 @@
 
                             <!-- Page title actions -->
                             <div class="card-actions">
-                                <a href="{{ route('admin.category.index') }}" class="btn btn-primary btn-3">
+                                <a href="{{ route('admin.service_category.index') }}" class="btn btn-primary btn-3">
                                     <i class="ti ti-arrow-back-up"></i>
                                     Back
 
@@ -22,7 +22,7 @@
 
 
 
-                        <form action="{{ route('admin.category.update', $category->id) }}" method="POST" class="card"
+                        <form action="{{ route('admin.service_category.update', $category->id) }}" method="POST" class="card"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')

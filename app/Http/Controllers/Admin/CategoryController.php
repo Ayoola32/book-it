@@ -54,7 +54,7 @@ class CategoryController extends Controller
         $category->save();
 
 
-        return redirect()->route('admin.category.index')->with('success', 'Category Created Successfully');
+        return redirect()->route('admin.service_category.index')->with('success', 'Category Created Successfully');
     }
 
     /**
@@ -100,7 +100,7 @@ class CategoryController extends Controller
         }
 
         $category->save();
-        return redirect()->route('admin.category.index')->with('success', 'Course Category Updated Successfully');
+        return redirect()->route('admin.service_category.index')->with('success', 'Course Category Updated Successfully');
     }
 
 

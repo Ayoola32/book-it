@@ -10,7 +10,7 @@
 
                             <!-- Page title actions -->
                             <div class="card-actions">
-                                <a href="{{ route('admin.category.create')}}" class="btn btn-primary btn-3">
+                                <a href="{{ route('admin.service_category.create')}}" class="btn btn-primary btn-3">
                                     <i class="ti ti-plus"></i> 
                                     Add new
                                 </a>
@@ -48,7 +48,7 @@
 
 
             $.ajax({
-                url: '{{ route('admin.category.update-status', ':id') }}'.replace(':id', id),
+                url: '{{ route('admin.service_category.update-status', ':id') }}'.replace(':id', id),
                 type: 'POST',
                 data: {
                     status: status,
@@ -61,7 +61,7 @@
                     if (status == 0 && $showAtTrendingSelect.val() == 1) {
                         $showAtTrendingSelect.val(0); // Update the dropdown UI
                         $.ajax({
-                            url: '{{ route('admin.category.update-show-at-trending', ':id') }}'.replace(':id', id),
+                            url: '{{ route('admin.service_category.update-show-at-trending', ':id') }}'.replace(':id', id),
                             type: 'POST',
                             data: {
                                 show_at_trending: 0,
@@ -99,7 +99,7 @@
 
 
             $.ajax({
-                url: '{{ route('admin.category.update-show-at-trending', ':id') }}'.replace(':id', id),
+                url: '{{ route('admin.service_category.update-show-at-trending', ':id') }}'.replace(':id', id),
                 type: 'POST',
                 data: {
                     show_at_trending: show_at_trending,
