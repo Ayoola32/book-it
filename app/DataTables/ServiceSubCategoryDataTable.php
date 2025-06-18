@@ -25,7 +25,35 @@ class ServiceSubCategoryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'servicesubcategory.action')
+            ->addColumn('image', function ($query) {
+                if ($query->image) {
+                    return '<img style="width:70px" src="' . asset($query->image) . '"></img>';
+                } else {
+                    return 'No Image';
+                }
+            })
+            ->addColumn('status', function ($query) {
+                $selectedDraft = $query->status == '0' ? 'selected' : '';
+                $selectedPublished = $query->status == '1' ? 'selected' : '';
+
+                return '
+                    <select class="form-control form-control-sm status-select" data-id="' . $query->id . '" data-category-id="' .  $query->category_id  .'"  data-value="' . $query->status . '">
+                        <option value="0" ' . $selectedDraft . '>No</option>
+                        <option value="1" ' . $selectedPublished . '>Yes</option>
+                    </select>
+                ';
+            })
+            ->addColumn('action', function ($query) {
+                return '
+                    <a href="" class="btn-sm btn-primary">
+                        <i class="ti ti-edit"></i>
+                    </a> 
+                    <a href="" class="btn-sm text-red delete-item">
+                        <i class="ti ti-trash"></i>
+                    </a>
+                ';
+            })            
+            ->rawColumns(['image', 'status', 'action'])
             ->setRowId('id');
     }
 
@@ -63,8 +91,8 @@ class ServiceSubCategoryDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
+                    ->orderBy(0)
+                    // ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
