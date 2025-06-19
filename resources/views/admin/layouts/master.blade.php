@@ -110,6 +110,7 @@
                                     });
                                 }
                                 $('#servicesubcategory-table').DataTable().ajax.reload(null, false); // ✅ Reloads table
+                                $('#category-table').DataTable().ajax.reload(null, false); // ✅ Reloads table
                             },
                             error: function(xhr, status, error) {
                                 Swal.fire({
