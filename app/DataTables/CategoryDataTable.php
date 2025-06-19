@@ -65,7 +65,7 @@ class CategoryDataTable extends DataTable
                 <a href="' . route('admin.service_category.edit', $query->slug) . '" class="btn-sm btn-primary">
                     <i class="ti ti-edit"></i>
                 </a> 
-                <a href="" class="btn-sm text-red delete-item">
+                <a href="' . route('admin.service_category.destroy', $query->slug) . '" class="btn-sm text-red delete-item">
                     <i class="ti ti-trash"></i>
                 </a>
             ';
