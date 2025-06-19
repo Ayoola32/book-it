@@ -73,20 +73,23 @@ class UserDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('user-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(0)
-                    // ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('users-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->orderBy(0)
+            ->parameters([
+                'scrollX' => true, 
+                'autoWidth' => false, 
+                'responsive' => true,
+            ])
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -98,8 +101,8 @@ class UserDataTable extends DataTable
             Column::make('id')->width(60),
             Column::make('image'),
             Column::make('name')->title('Full Name'),
-            Column::make('email')->title('Email')->width(60),
-            Column::make('phone')->title('Phone')->width(60),
+            Column::make('email')->title('Email'),
+            Column::make('phone')->title('Phone'),
             Column::make('status')->title('Status')->width(60),
             Column::computed('action')
                 ->exportable(false)

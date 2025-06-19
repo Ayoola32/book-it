@@ -4,6 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\UserDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UserCreateRequest;
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -21,15 +26,32 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
-        //
+        // $request->validate([
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+        //     'phone' => ['required', 'regex:/^[+]?[0-9\s\-\(\)]{7,20}$/', 'unique:' . User::class],
+        //     'status' => ['required', 'boolean'],
+        // ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make('password'),
+            'status' => $request->status ?? 0,
+        ]);
+
+        event(new Registered($user));
+        return redirect()->back();
+
     }
 
     /**
