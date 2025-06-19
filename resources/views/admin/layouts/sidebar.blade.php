@@ -64,7 +64,7 @@
                                 </a>
                             </div>
                             <div class="dropdown-menu-column">
-                                <a class="dropdown-item" href="">
+                                <a class="dropdown-item" href="{{ route('admin.user.create') }}">
                                     Add New User
                                 </a>
                             </div>

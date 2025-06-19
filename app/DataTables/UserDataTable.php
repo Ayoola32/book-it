@@ -47,7 +47,7 @@ class UserDataTable extends DataTable
                 <a href="" class="btn-sm text-info">
                     <i class="ti ti-book"></i>
                 </a> 
-                <a href="" class="btn-sm btn-primary">
+                <a href="' . route('admin.user.edit', $query->id). '" class="btn-sm btn-primary">
                     <i class="ti ti-edit"></i>
                 </a> 
                 <a href="" class="btn-sm text-red delete-item">

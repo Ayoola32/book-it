@@ -62,7 +62,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::where('id', $id)->firstOrFail();
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
