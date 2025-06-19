@@ -33,11 +33,14 @@ class ServiceSubCategoryDataTable extends DataTable
                 }
             })
             ->addColumn('status', function ($query) {
+                $category = Category::find($query->category_id);
+                $categorySlug = $category ? $category->slug : '';
+
                 $selectedDraft = $query->status == '0' ? 'selected' : '';
                 $selectedPublished = $query->status == '1' ? 'selected' : '';
 
                 return '
-                    <select class="form-control form-control-sm status-select" data-id="' . $query->id . '" data-category-id="' .  $query->category_id  .'"  data-value="' . $query->status . '">
+                    <select class="form-control form-control-sm status-select" data-id="' . $query->id . '" data-category-id="' . $categorySlug  .'"  data-value="' . $query->status . '">
                         <option value="0" ' . $selectedDraft . '>No</option>
                         <option value="1" ' . $selectedPublished . '>Yes</option>
                     </select>

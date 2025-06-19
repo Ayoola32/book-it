@@ -108,6 +108,27 @@ class ServiceSubCategoryController extends Controller
         return redirect()->route('admin.service.index', $category->slug)->with('success', 'Service Updated Successfully');
     }
 
+
+    /**
+     * Update the status of the specified resource.
+     */
+    public function updateStatus(Request $request, Category $category, ServiceSubCategory $service)
+    {
+        $service->status = $request->status;
+
+        if ($category->status == 0 && $service->status == 1) {
+            $service->status = 0;
+            session()->flash('warning', 'Status was turned off because Category Status is off');
+        }
+        
+        $service->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Status updated successfully.'
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
