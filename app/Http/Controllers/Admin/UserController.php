@@ -46,7 +46,7 @@ class UserController extends Controller
         ]);
 
         event(new Registered($user));
-        return redirect()->back();
+        return redirect()->route('admin.user.index')->with('success', 'New User Created Successfully');
 
     }
 
@@ -72,7 +72,17 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, string $id)
     {
-        dd($request->all());
+       $user = User::findOrFail($id);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'status' => $request->status ?? $user->status,
+        ]);
+
+        return redirect()->route('admin.user.index')->with('success', 'User updated successfully');
+
     }
 
     /**
