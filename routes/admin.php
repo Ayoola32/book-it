@@ -72,6 +72,7 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::post('/{category}/service/update-status/{service}', [ServiceSubCategoryController::class, 'updateStatus'])->name('service.update-status');
 
     Route::resource('/user', UserController::class);
+    Route::post('/user/update-status/{id}', [UserController::class, 'updateStatus'])->name('user.update-status');
 
 
 });
