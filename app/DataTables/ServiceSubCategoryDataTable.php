@@ -48,7 +48,7 @@ class ServiceSubCategoryDataTable extends DataTable
                 $categorySlug = $category ? $category->slug : '';
 
                 return '
-                    <a href="' . route('admin.service.edit', ['category' => $categorySlug, 'service' => $query->slug]) . '" class="btn-sm btn-primary">
+                    <a href="' . route('admin.service.edit', ['category' => $categorySlug, 'service' => $query->id]) . '" class="btn-sm btn-primary">
                         <i class="ti ti-edit"></i>
                     </a>
                     <a href="" class="btn-sm text-red delete-item">

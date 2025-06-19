@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\ServiceSubCategoryDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ServiceStoreRequest;
+use App\Http\Requests\Admin\ServiceUpdateRequest;
 use App\Models\Category;
 use App\Models\ServiceSubCategory;
 use App\Traits\FileUpload;
@@ -75,17 +76,36 @@ class ServiceSubCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category, ServiceSubCategory $service)
     {
-        //
+        return view('admin.services.service.edit', compact('category', 'service'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ServiceUpdateRequest $request, Category $category, ServiceSubCategory $service)
     {
-        //
+        if ($request->hasFile('image')) {
+            $imagePath = $this->uploadFile($request->file('image'), 'uploads/service');
+            $service->image = $imagePath;
+        }
+
+        $service->name = $request->name;
+        $service->slug = Str::slug($request->name);
+        $service->status = $request->status;
+        $service->price = $request->price;
+        $service->sale_price = $request->sale_price;
+
+
+        if ($category->status == 0 && $service->status == 1) {
+            $service->status = 0;
+            session()->flash('warning', 'Status was turned off because Category Status is off');
+        }
+
+        $service->save();
+
+        return redirect()->route('admin.service.index', $category->slug)->with('success', 'Service Updated Successfully');
     }
 
     /**
