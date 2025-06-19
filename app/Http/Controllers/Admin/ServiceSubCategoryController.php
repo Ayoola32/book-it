@@ -132,8 +132,18 @@ class ServiceSubCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category, ServiceSubCategory $service)
     {
-        //
+        // Check if the image exists before attempting to delete it
+        if ($service->image) {
+            $this->deleteFile($service->image);
+        }
+
+        $service->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Service deleted successfully.'
+        ]);    
     }
 }
