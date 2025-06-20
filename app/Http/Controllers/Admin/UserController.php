@@ -90,7 +90,10 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::where('id', $id)->firstOrFail();
-        return view('admin.users.edit', compact('user'));
+        $services = ServiceSubCategory::where('status', 1)->get();
+        $employee = Employee::with('services')->where('user_id', $id)->first();
+        $selectedServices = $employee ? $employee->services->pluck('id')->toArray() : [];
+        return view('admin.users.edit', compact('user', 'services', 'employee', 'selectedServices'));
     }
 
     /**

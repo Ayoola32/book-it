@@ -15,6 +15,6 @@ class ServiceSubCategory extends Model
 
     public function employees()
     {
-        return $this->belongsToMany(Employee::class);
+        return $this->belongsToMany(Employee::class, 'employee_service_sub_category');
     }
 }
