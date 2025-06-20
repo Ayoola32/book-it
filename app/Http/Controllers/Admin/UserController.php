@@ -131,11 +131,15 @@ class UserController extends Controller
         ]);
 
         if ($request->role === 'employee') {
+
+            $transformedDays = $this->transformOpeningHours($request->input('days', []));
+
             $employee = Employee::updateOrCreate(
                 ['user_id' => $user->id],
                 [
                     'slot_duration' => $request->input('slot_duration') ?? 30,
                     'break_duration' => $request->input('break_duration') ?? 10,
+                    'days'           => $transformedDays,
                 ]
             );
 
