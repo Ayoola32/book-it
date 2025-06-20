@@ -99,9 +99,47 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // public function update(UserUpdateRequest $request, string $id)
+    // {
+    //    $user = User::findOrFail($id);
+
+    //     $user->update([
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'phone' => $request->phone,
+    //         'status' => $request->status ?? $user->status,
+    //         'role' => $request->role ?? $user->role,
+    //     ]);
+
+    //     if ($request->role === 'employee') 
+    //     {
+    //         $employee = $user->employee ?? Employee::create(['user_id' => $user->id]);
+
+    //         // Update employee details
+    //         $employee->update([
+    //             'slot_duration' => $request->input('slot_duration'),
+    //             'break_duration' => $request->input('break_duration'),
+    //         ]);
+
+    //         // Sync services (replaces existing services with new selection)
+    //         $flatServices = collect($request->input('service', []))
+    //             ->flatten()
+    //             ->filter()
+    //             ->map(fn($id) => (int) $id)
+    //             ->toArray();
+
+    //         $employee->services()->sync($flatServices);
+    //     } elseif ($user->role === 'employee' && $request->role !== 'employee') {
+    //         $user->employee()->delete();
+    //     }
+
+    //     return redirect()->route('admin.user.index')->with('success', 'User updated successfully');
+
+    // }
+
     public function update(UserUpdateRequest $request, string $id)
     {
-       $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
         $user->update([
             'name' => $request->name,
@@ -110,6 +148,27 @@ class UserController extends Controller
             'status' => $request->status ?? $user->status,
             'role' => $request->role ?? $user->role,
         ]);
+
+        if ($request->role === 'employee') {
+            $employee = Employee::updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'slot_duration' => $request->input('slot_duration') ?? 30,
+                    'break_duration' => $request->input('break_duration') ?? 10,
+                ]
+            );
+
+
+            // Handle nested service array
+            $flatServices = collect($request->input('service', []))
+                ->flatten(1) // Flatten nested array one level
+                ->filter()
+                ->map(fn($id) => (int) $id)
+                ->toArray();
+
+            $employee->services()->sync($flatServices);
+            
+        }
 
         return redirect()->route('admin.user.index')->with('success', 'User updated successfully');
 

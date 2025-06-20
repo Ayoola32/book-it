@@ -21,15 +21,25 @@ class UserUpdateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
-        return [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->route('user'))],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255',Rule::unique('users', 'email')->ignore($this->route('user'))],
             'phone' => ['required', 'regex:/^[+]?[0-9\s\-\(\)]{7,20}$/', Rule::unique('users', 'phone')->ignore($this->route('user'))],
             'status' => ['required', 'boolean'],
             'role' => ['required', 'in:user,employee,moderator'],
         ];
+
+        if ($this->role === 'employee') {
+            $rules = array_merge($rules, [
+                'service' => ['nullable', 'array'],
+                'slot_duration' => ['nullable', 'integer', 'min:10', 'max:60'],
+                'break_duration' => ['nullable', 'integer', 'min:5', 'max:30'],
+            ]);
+        }
+
+        return $rules;
     }
 
     protected function prepareForValidation()
