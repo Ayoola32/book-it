@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use \App\Traits\TransformData;
     /**
      * Display a listing of the resource.
      */
@@ -58,10 +59,13 @@ class UserController extends Controller
         
         if($request->role === 'employee')
         {
+            $transformedDays = $this->transformOpeningHours($request->input('days', []));
+
             $employee = Employee::create([
                 'user_id'           => $user['id'],
                 'slot_duration'     => $request['slot_duration'],
                 'break_duration'    => $request['break_duration'],
+                'days'              => $transformedDays,
             ]);
 
             $flatServices = collect($request->input('service', []))
