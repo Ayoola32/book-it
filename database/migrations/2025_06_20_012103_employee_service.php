@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees_service', function (Blueprint $table) {
+        Schema::create('employee_service_sub_category', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Employee::class);
             $table->foreignIdFor(ServiceSubCategory::class);
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees_service');
+        Schema::dropIfExists('employee_service_sub_category');
     }
 };
