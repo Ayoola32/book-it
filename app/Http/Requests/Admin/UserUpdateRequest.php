@@ -28,6 +28,7 @@ class UserUpdateRequest extends FormRequest
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->route('user'))],
             'phone' => ['required', 'regex:/^[+]?[0-9\s\-\(\)]{7,20}$/', Rule::unique('users', 'phone')->ignore($this->route('user'))],
             'status' => ['required', 'boolean'],
+            'role' => ['required', 'in:user,employee,moderator'],
         ];
     }
 
