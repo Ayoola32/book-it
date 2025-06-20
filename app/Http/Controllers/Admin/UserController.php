@@ -93,54 +93,31 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::where('id', $id)->firstOrFail();
+        $days = [
+            'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
+        ];
+
+        $user = User::with('employee')->findOrFail($id);
+
+        $employeeDays = $user->employee->days ?? [];
+        $employeeDays = $this->transformAvailabilitySlotsForEdit($employeeDays);
+
+        // Ensure all days are present (even if empty)
+        foreach ($days as $day) {
+            if (!isset($employeeDays[$day])) {
+                $employeeDays[$day] = [];
+            }
+        }
+
         $services = ServiceSubCategory::where('status', 1)->get();
         $employee = Employee::with('services')->where('user_id', $id)->first();
         $selectedServices = $employee ? $employee->services->pluck('id')->toArray() : [];
-        return view('admin.users.edit', compact('user', 'services', 'employee', 'selectedServices'));
+        return view('admin.users.edit', compact('user', 'services', 'employee', 'selectedServices', 'days', 'employeeDays'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    // public function update(UserUpdateRequest $request, string $id)
-    // {
-    //    $user = User::findOrFail($id);
-
-    //     $user->update([
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //         'phone' => $request->phone,
-    //         'status' => $request->status ?? $user->status,
-    //         'role' => $request->role ?? $user->role,
-    //     ]);
-
-    //     if ($request->role === 'employee') 
-    //     {
-    //         $employee = $user->employee ?? Employee::create(['user_id' => $user->id]);
-
-    //         // Update employee details
-    //         $employee->update([
-    //             'slot_duration' => $request->input('slot_duration'),
-    //             'break_duration' => $request->input('break_duration'),
-    //         ]);
-
-    //         // Sync services (replaces existing services with new selection)
-    //         $flatServices = collect($request->input('service', []))
-    //             ->flatten()
-    //             ->filter()
-    //             ->map(fn($id) => (int) $id)
-    //             ->toArray();
-
-    //         $employee->services()->sync($flatServices);
-    //     } elseif ($user->role === 'employee' && $request->role !== 'employee') {
-    //         $user->employee()->delete();
-    //     }
-
-    //     return redirect()->route('admin.user.index')->with('success', 'User updated successfully');
-
-    // }
-
     public function update(UserUpdateRequest $request, string $id)
     {
         $user = User::findOrFail($id);
