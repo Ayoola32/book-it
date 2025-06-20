@@ -22,4 +22,21 @@ trait TransformData
 
         return $result;
     }
+
+    // Transform days data availability slots for edit
+    function transformAvailabilitySlotsForEdit(array $employeeDays)
+    {
+        foreach ($employeeDays as $day => $slots) {
+            $transformedSlots = [];
+            foreach ($slots as $slot) {
+                list($startTime, $endTime) = explode('-', $slot);
+                $transformedSlots[] = $startTime;
+                $transformedSlots[] = $endTime;
+            }
+            $employeeDays[$day] = $transformedSlots;
+        }
+
+        return $employeeDays;
+    }
+
 }
