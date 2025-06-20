@@ -40,6 +40,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'role' => $request->role ?? 'user',
             'password' => Hash::make('password'),
             'image' => 'uploads/images/avatar.png',
             'status' => $request->status ?? 0,

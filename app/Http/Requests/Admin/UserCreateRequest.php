@@ -27,6 +27,7 @@ class UserCreateRequest extends FormRequest
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'phone' => ['required', 'regex:/^[+]?[0-9\s\-\(\)]{7,20}$/', 'unique:' . User::class],
             'status' => ['required', 'boolean'],
+            'role' => ['required', 'in:user,employee,moderator'],
         ];
     }
 

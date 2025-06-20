@@ -23,11 +23,21 @@
                             <div class="card-body">
                                 <div class="mb-3">
                                     <div class="row">
-                                        <div class="col-md-12 mb-2">
+                                        <div class="col-md-6 mb-2">
                                             <label class="form-label required">Name</label>
                                             <input type="text" class="form-control" name="name"
                                                 placeholder="Full Name" value="{{ old('name') }}">
                                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label class="form-label required">Role</label>
+                                            <select class="form-select" name="role">
+                                                <option value="">Select Role</option>
+                                                <option value="user">User</option>
+                                                <option value="employee">Employee</option>
+                                                <option value="moderator">Moderator</option>
+                                            </select>
+                                            <x-input-error :messages="$errors->get('role')" class="mt-2" />
                                         </div>
                                         <div class="col-md-6 mb-2">
                                             <label class="form-label required">Email</label>
