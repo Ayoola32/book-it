@@ -6,6 +6,8 @@ use App\DataTables\UserDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserCreateRequest;
 use App\Http\Requests\Admin\UserUpdateRequest;
+use App\Models\Employee;
+use App\Models\ServiceSubCategory;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
@@ -27,7 +29,12 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        $days = [
+            'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
+        ];
+
+        $services = ServiceSubCategory::where('status', 1)->get();
+        return view('admin.users.create', compact('days', 'services'));
     }
 
     /**
@@ -47,6 +54,24 @@ class UserController extends Controller
         ]);
 
         event(new Registered($user));
+ 
+        
+        if($request->role === 'employee')
+        {
+            $employee = Employee::create([
+                'user_id'           => $user['id'],
+                'slot_duration'     => $request['slot_duration'],
+                'break_duration'    => $request['break_duration'],
+            ]);
+
+            $flatServices = collect($request->input('service', []))
+                ->flatten()
+                ->filter()
+                ->map(fn($id) => (int) $id)
+                ->toArray();
+
+            $employee->services()->attach($flatServices);        
+        }
         return redirect()->route('admin.user.index')->with('success', 'New User Created Successfully');
 
     }
