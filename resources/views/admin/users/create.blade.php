@@ -102,8 +102,56 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
 
+
+                                            <div class="row">
+                                                <div class="mb-3 mt-3">
+                                                    <h3 class="mb-0">Set Availability - For Employee</h3>
+                                                    <small class="text-muted">
+                                                        Select days and timings, with the option to add multiple time slots in a
+                                                        day, e.g., 9 AM–12 PM and 4 PM–8 PM.
+                                                    </small>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    @foreach ($days as $day)
+                                                        <div class="row mb-3"> 
+                                                            <div class="col-md-2">
+                                                                <div class="form-group">
+                                                                    <div class="custom-control custom-switch">
+                                                                        <input type="checkbox" class="custom-control-input" id="{{ $day }}" name="days_enabled[]" value="{{ $day }}" {{ old('days.' . $day) ? 'checked' : '' }}>
+                                                                        <label class="custom-control-label" for="{{ $day }}">{{ ucfirst($day) }}</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                <div class="form-group"> 
+                                                                    <strong>From:</strong>
+                                                                    <input type="time" class="form-control from"
+                                                                        name="days[{{ $day }}][]"
+                                                                        value="{{ old('days.' . $day . '.0') }}"
+                                                                        id="{{ $day }}From">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <strong>To:</strong>
+                                                                    <input type="time" class="form-control to"
+                                                                        name="days[{{ $day }}][]"
+                                                                        value="{{ old('days.' . $day . '.1') }}"
+                                                                        id="{{ $day }}To">
+                                                                </div>
+                                                                <div style="margin-top:-15px;" id="{{ $day }}AddMore"
+                                                                    class="text-right d-none text-primary mt-1">Add More</div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+
+                                            
+                                        </div>
                                     </div>
                                 </div>
 
@@ -143,6 +191,67 @@
 
             // Listen to change event
             roleSelect.addEventListener('change', toggleEmployeeFields);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            function toggleDayFields(dayId) {
+                var isChecked = $('#' + dayId).prop('checked');
+                $('#' + dayId + 'From, #' + dayId + 'To').prop('disabled', !isChecked);
+
+                // Show or hide the "Add More" button based on the checkbox state
+                if (isChecked) {
+                    $('#' + dayId + 'AddMore').removeClass('d-none');
+                } else {
+                    $('#' + dayId + 'AddMore').addClass('d-none');
+                    // Remove all additional fields for the day if unchecked
+                    $('.additional-' + dayId).remove();
+                }
+            }
+
+            function addMoreFields(dayId) {
+                var originalRow = $('#' + dayId + 'AddMore').closest('.row');
+                var clonedRow = originalRow.clone();
+
+                // Reset the values in the cloned row (but don't enable the fields yet)
+                clonedRow.find('input').each(function() {
+                    $(this).val('');
+                });
+
+                // Replace the col-md-2 section with a blank div for the cloned row
+                clonedRow.find('.col-md-2').replaceWith('<div class="col-md-2"></div>');
+
+                // Update "Add More" to "Remove" for the cloned row
+                clonedRow.find(`#${dayId}AddMore`).text('Remove').attr('id', '').addClass(
+                    'remove-field text-danger');
+
+                // Add a unique class to the cloned row for targeting specific day rows
+                clonedRow.addClass('additional-' + dayId);
+
+                // Append the cloned row after the original row or the last cloned row
+                if (originalRow.closest('.row').siblings('.additional-' + dayId).length === 0) {
+                    originalRow.after(clonedRow);
+                } else {
+                    originalRow.closest('.row').siblings('.additional-' + dayId).last().after(clonedRow);
+                }
+            }
+
+            // Remove cloned rows
+            $(document).on('click', '.remove-field', function() {
+                $(this).closest('.row').remove();
+            });
+
+            // Bind change and add-more events to all days
+            ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].forEach(function(day) {
+                $('#' + day).on('change', function() {
+                    toggleDayFields(day);
+                }).trigger('change');
+
+                $('#' + day + 'AddMore').on('click', function() {
+                    addMoreFields(day);
+                });
+            });
         });
     </script>
 
