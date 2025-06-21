@@ -13,6 +13,8 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    use \App\Traits\TransformData;
+
     /**
      * Display the user's profile form.
      */
@@ -21,8 +23,27 @@ class ProfileController extends Controller
         // return view('profile.index', [
         //     'user' => $request->user()->load(['employee']),
         // ]);
+
+        $days = [
+            'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
+        ];
+
         $user = User::with('employee')->where('id', Auth::id())->firstOrFail();
-        return view('profile.index', compact('user'));
+        $employeeDays = $user->employee->days ?? [];
+        $employeeDays = $this->transformAvailabilitySlotsForEdit($employeeDays);
+
+        // Ensure all days are present (even if empty)
+        foreach ($days as $day) {
+            if (!isset($employeeDays[$day])) {
+                $employeeDays[$day] = [];
+            }
+        }
+        $employee = Employee::with('services')->where('user_id', Auth::id())->first();
+
+
+
+
+        return view('profile.index', compact('user', 'days', 'employeeDays', 'employee'));
     }
 
     /**
