@@ -76,19 +76,32 @@
 
                                 <!-- Bio Tab -->
                                 <div class="tab-pane fade {{ old('active_tab') === 'bio' ? 'show active' : '' }}" id="bio" role="tabpanel">
-                                    <form action="" method="post" class="form-horizontal">
+                                    <form action="{{ route('employee.bio.update', $user->employee->id)}}" method="post" class="form-horizontal">
                                         @csrf
+                                        @method('put')
                                         <input type="hidden" name="active_tab" id="active_tab" value="bio">
                                         <div class="mb-3 row">
                                             <label for="inputExperience" class="col-sm-2 col-form-label">Bio</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control" id="inputExperience" rows="10" name="bio"></textarea>
+                                                <textarea class="form-control" id="inputExperience" rows="10" name="bio">{!! $user->employee->bio !!}</textarea>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
                                             <label for="inputSkills" class="col-sm-2 col-form-label">Facebook</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="social[facebook]" placeholder="www.facebook.com/your-profile">
+                                                <input type="text" class="form-control" name="social[facebook]" value="{{$user->employee->social['facebook']}}" placeholder="www.facebook.com/your-profile">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="inputSkills" class="col-sm-2 col-form-label">Instagram</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="social[instagram]" value="{{$user->employee->social['instagram'] ?? ''}}" placeholder="www.instagram.com/your-profile">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="inputSkills" class="col-sm-2 col-form-label">Tiktok</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="social[tiktok]" value="{{$user->employee->social['tiktok'] ?? ''}}" placeholder="www.tiktok.com/your-profile">
                                             </div>
                                         </div>
                                         <div class="row">
