@@ -1,47 +1,101 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!doctype html>
+<html lang="en">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>BookingEase - User Sign in</title>
+    <!-- CSS files -->
+    <link href="{{ asset('admin/assets/dist/css/tabler.min.css?1692870487') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/dist/css/tabler-flags.min.css?1692870487') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/dist/css/tabler-payments.min.css?1692870487') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/dist/css/tabler-vendors.min.css?1692870487') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/dist/css/demo.min.css?1692870487') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css">
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    <style>
+        @import url('https://rsms.me/inter/inter.css');
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        :root {
+            --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+        }
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+        body {
+            font-feature-settings: "cv03", "cv04", "cv11";
+        }
+    </style>
+    @vite(['resources/css/admin.css', 'resources/js/admin/login.js'])
+</head>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
+<body class=" d-flex flex-column">
+    <script src="./dist/js/demo-theme.min.js?1692870487"></script>
+    <div class="page page-center">
+        <div class="container container-tight py-4">
+            <div class="text-center mb-4">
+                <a href="." class="navbar-brand navbar-brand-autodark">
+                    <img src="{{ asset('admin/assets/static/logo.svg') }}" width="110" height="32" alt="LC"
+                        class="navbar-brand-image">
                 </a>
-            @endif
+            </div>
+            <div class="card card-md">
+                <div class="card-body">
+                    <x-auth-session-status class="mb-4" :status="session('status')" />
+                    <h2 class="h2 text-center mb-4">User Login</h2>
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+                        {{-- Email --}}
+                        <div class="mb-3">
+                            <label class="form-label">Email address</label>
+                            <input type="email" name="email" value="{{ old('email') }}" class="form-control"
+                                placeholder="your@email.com" autocomplete="off">
+                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        </div>
+
+                        {{-- Password --}}
+                        <div class="mb-2">
+                            <label class="form-label">
+                                Password
+                                <span class="form-label-description">
+                                    <a href="{{ route('password.request') }}">I forgot password</a>
+                                </span>
+                            </label>
+                            <div class="input-group input-group-flat">
+                                <input type="password" name="password" class="form-control password" placeholder="Your password"
+                                    autocomplete="off">
+                                <span class="input-group-text toggle-password">
+                                    <a href="javascript:;" class="link-secondary" title="Show password"
+                                        data-bs-toggle="tooltip">
+                                        <i class="ti ti-eye"></i>
+                                    </a>
+                                </span>
+                            </div>
+                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+
+                        </div>
+
+                        {{-- Remember me --}}
+                        <div class="mb-2">
+                            <label class="form-check">
+                                <input type="checkbox" name="remember" class="form-check-input" />
+                                <span class="form-check-label">Remember me</span>
+                            </label>
+                        </div>
+
+                        <div class="form-footer">
+                            <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </form>
-</x-guest-layout>
+    </div>
+    <!-- Libs JS -->
+    <!-- Tabler Core -->
+    <script src="{{ asset('admin/assets/dist/js/tabler.min.js?1692870487') }}" defer></script>
+    <script src="{{ asset('admin/assets/dist/js/demo.min.js?1692870487') }}" defer></script>
+</body>
+
+</html>
+
