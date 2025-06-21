@@ -81,6 +81,27 @@ class ProfileController extends Controller
 
     public function updateAvailability(Request $request, Employee $employee)
     {
-        dd($request->all());
+        if ($employee->user->id !== Auth::id()) {
+            return Redirect::back()->withErrors(['You are not authorized to update this profile.']);
+        }
+
+        if ($employee->user->role === 'employee') {
+
+            $transformedDays = $this->transformOpeningHours($request->input('days', []));
+
+            $employee = Employee::updateOrCreate(
+                ['user_id' => $employee->user->id],
+                [
+                    'slot_duration' => $request->input('slot_duration') ?? 30,
+                    'break_duration' => $request->input('break_duration') ?? 10,
+                    'days'           => $transformedDays,
+                ]
+            );
+
+        }
+
+
+        return redirect()->back()->with('success', 'Availability has been updated successfully!');
+
     }
 }
