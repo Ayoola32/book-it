@@ -77,4 +77,10 @@ class ProfileController extends Controller
         $employee->update($data);
         return back()->withSuccess('Profile has been updated successfullly!');
     }
+
+
+    public function updateAvailability(Request $request, Employee $employee)
+    {
+        dd($request->all());
+    }
 }

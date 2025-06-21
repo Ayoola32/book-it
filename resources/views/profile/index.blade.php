@@ -129,7 +129,7 @@
 
                                     <!-- Availability Tab -->
                                     <div class="tab-pane fade {{ old('active_tab') === 'employee' ? 'show active' : '' }}" id="availability" role="tabpanel">
-                                        <form action="" method="POST" enctype="multipart/form-data">
+                                        <form action="{{ route('employee.availability.update', $user->employee->id) }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
                                             <div class="row">

@@ -17,6 +17,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile-update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
     Route::put('/password', [PasswordController::class, 'update'])->name('update.password');
     Route::put('employee-bio/{employee}',[ProfileController::class,'updateBio'])->name('employee.bio.update');
+    Route::put('employee-availability/{employee}',[ProfileController::class,'updateAvailability'])->name('employee.availability.update');
+
 
 
 
