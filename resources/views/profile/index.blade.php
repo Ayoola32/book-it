@@ -95,15 +95,15 @@
                                         <div class="mb-3 row">
                                             <label for="inputSkills" class="col-sm-2 col-form-label">Facebook</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="social[facebook]"
-                                                    value="{{ $user->employee->social['facebook'] }}"
+                                                <input type="url" class="form-control" name="social[facebook]"
+                                                    value="{{ $user->employee->social['facebook'] ?? ''}}"
                                                     placeholder="www.facebook.com/your-profile">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
                                             <label for="inputSkills" class="col-sm-2 col-form-label">Instagram</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="social[instagram]"
+                                                <input type="url" class="form-control" name="social[instagram]"
                                                     value="{{ $user->employee->social['instagram'] ?? '' }}"
                                                     placeholder="www.instagram.com/your-profile">
                                             </div>
@@ -111,7 +111,7 @@
                                         <div class="mb-3 row">
                                             <label for="inputSkills" class="col-sm-2 col-form-label">Tiktok</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="social[tiktok]"
+                                                <input type="url" class="form-control" name="social[tiktok]"
                                                     value="{{ $user->employee->social['tiktok'] ?? '' }}"
                                                     placeholder="www.tiktok.com/your-profile">
                                             </div>
