@@ -32,6 +32,11 @@ class ServiceSubCategoryDataTable extends DataTable
                     return 'No Image';
                 }
             })
+
+            ->addColumn('sale_price', function ($query) {
+                return $query->sale_price ? $query->sale_price : 0;
+            })
+            
             ->addColumn('status', function ($query) {
                 $category = Category::find($query->category_id);
                 $categorySlug = $category ? $category->slug : '';
@@ -59,7 +64,7 @@ class ServiceSubCategoryDataTable extends DataTable
                     </a>
                 ';
             })            
-            ->rawColumns(['image', 'status', 'action'])
+            ->rawColumns(['image', 'status', 'action', 'sale_price'])
             ->setRowId('id');
     }
 
