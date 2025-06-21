@@ -82,14 +82,14 @@
 
                                 <!-- Bio Tab -->
                                 <div class="tab-pane fade {{ old('active_tab') === 'bio' ? 'show active' : '' }}" id="bio" role="tabpanel">
-                                    <form action="{{ route('employee.bio.update', $user->employee->id)}}" method="post" class="form-horizontal">
+                                    <form action="{{ route('employee.bio.update', $user->employee->id ?? 0) }}" method="post" class="form-horizontal">
                                         @csrf
                                         @method('put')
                                         <input type="hidden" name="active_tab" id="active_tab" value="bio">
                                         <div class="mb-3 row">
                                             <label for="inputExperience" class="col-sm-2 col-form-label">Bio</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control" id="inputExperience" rows="10" name="bio">{!! $user->employee->bio !!}</textarea>
+                                                <textarea class="form-control" id="inputExperience" rows="10" name="bio">{{ old('bio', $user->employee->bio ?? '') }}</textarea>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
@@ -129,7 +129,7 @@
 
                                     <!-- Availability Tab -->
                                     <div class="tab-pane fade {{ old('active_tab') === 'employee' ? 'show active' : '' }}" id="availability" role="tabpanel">
-                                        <form action="{{ route('employee.availability.update', $user->employee->id) }}" method="POST" enctype="multipart/form-data">
+                                        <form action="{{ route('employee.availability.update', $user->employee->id ?? 0) }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
                                             <div class="row">

@@ -63,19 +63,26 @@ class ProfileController extends Controller
         return redirect()->back();
     }
 
-    public function updateBio(Request $request, Employee $employee)
+    public function updateBio(Request $request)
     {
-        if ($employee->user->id !== Auth::id()) {
-            return Redirect::back()->withErrors(['You are not authorized to update this profile.']);
-        }
+        $user = Auth::user();
+
+        // Get or create the employee model
+        $employee = Employee::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'bio' => '',    // default values
+                'social' => []  // default values
+            ]
+        );
 
         $data = $request->validate([
             'bio' => 'nullable|string|max:2000',
-            'social' => 'nullable'
+            'social' => 'nullable|array',
         ]);
 
         $employee->update($data);
-        return back()->withSuccess('Profile has been updated successfullly!');
+        return back()->withSuccess('Profile has been updated successfully!');
     }
 
 
