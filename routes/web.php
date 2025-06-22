@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/password', [PasswordController::class, 'update'])->name('update.password');
     Route::put('employee-bio/{employee}',[ProfileController::class,'updateBio'])->name('employee.bio.update');
     Route::put('employee-availability/{employee}',[ProfileController::class,'updateAvailability'])->name('employee.availability.update');
+    Route::put('/profile-pic/{user}',[ProfileController::class,'updateProfileImage'])->name('profile.image.update');
+
 
 
 
