@@ -20,7 +20,7 @@
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile text-center">
                             <img class="profile-user-img img-fluid"
-                                src="{{ Auth::user()->image ? asset(Auth::user()->image) : asset('admin/assets/static/avatars/000m.jpg') }}"
+                                src="{{ Auth::user()->image ? asset(Auth::user()->image) : asset('uploads/images/avatar.png') }}"
                                 alt="User profile picture">
                             <div class="mt-2">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#profileImageModal">Change image</a>
@@ -295,15 +295,16 @@
     <!-- Modal -->
     <div class="modal fade" id="profileImageModal" tabindex="-1" aria-labelledby="profileImageModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form action="" method="post" enctype="multipart/form-data">
+            <form action="{{ route('profile.image.update', Auth::user()->id) }}" method="post" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Update Profile Pic</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        @csrf
-                        @method('PUT')
+
                         <input type="file" name="image" class="form-control">
                     </div>
                     <div class="modal-footer">
