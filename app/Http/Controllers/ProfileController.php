@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Employee;
 use App\Models\User;
+use App\Traits\FileUpload;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,7 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     use \App\Traits\TransformData;
+    use FileUpload;
 
     /**
      * Display the user's profile form.
@@ -111,4 +113,24 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Availability has been updated successfully!');
 
     }
+
+    /**
+     * Update the user's profile image.
+     */
+    public function updateProfileImage(Request $request, User $user)
+    {
+        if ($user->id !== Auth::id()) {
+            return Redirect::back()->withErrors(['You are not authorized to update this profile.']);
+        }
+
+        $request->validate([
+            'image' => ['image', 'mimes:png,jpg,jpeg,webp', 'max:2000'],
+        ]);
+
+        $imagePath = $this->uploadFile($request->file('image'), 'uploads/users');
+        $user->update(['image' => $imagePath]);
+
+        return redirect()->back()->with('success', 'Profile image has been updated successfully!');
+    }
+
 }
