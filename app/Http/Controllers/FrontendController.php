@@ -24,7 +24,9 @@ public function index(Request $request)
         }
     ])->where('status', 1)->get();
 
-    return view('welcome', compact('categories'));
+    $employees = Employee::with('services')->with('user')->get();
+
+    return view('welcome', compact('categories', 'employees'));
 }
 
 }
