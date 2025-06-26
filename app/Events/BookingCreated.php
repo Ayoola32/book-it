@@ -13,13 +13,14 @@ use Illuminate\Queue\SerializesModels;
 class BookingCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    public $appointment;
 
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct($appointment)
     {
-        //
+        $this->appointment = $appointment;
     }
 
     /**
