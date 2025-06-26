@@ -9,6 +9,7 @@ use App\Models\ServiceSubCategory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Number;
+use Spatie\OpeningHours\OpeningHours;
 
 class FrontendController extends Controller
 {
