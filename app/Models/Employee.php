@@ -23,4 +23,15 @@ class Employee extends Model
     {
         return $this->belongsToMany(ServiceSubCategory::class, 'employee_service_sub_category');
     }
+
+    public function holidays()
+    {
+        return $this->hasMany(Holiday::class,'employee_id');
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'employee_id');
+    }
+
 }
