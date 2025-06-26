@@ -34,7 +34,7 @@ class AppointmentController extends Controller
         $validated = $request->validate([
             'user_id' => 'nullable|exists:users,id',
             'employee_id' => 'required|exists:employees,id',
-            'service_id' => 'required|exists:services,id',
+            'service_id' => 'required|exists:service_sub_categories,id',
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:20',
