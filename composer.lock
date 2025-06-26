@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2dc80158772a11b6c8e01e379381a15c",
+    "content-hash": "65d27249fe7ed904584d1797534225b1",
     "packages": [
         {
             "name": "brick/math",
@@ -4022,6 +4022,155 @@
                 "source": "https://github.com/ramsey/uuid/tree/4.8.1"
             },
             "time": "2025-06-01T06:28:46+00:00"
+        },
+        {
+            "name": "spatie/laravel-permission",
+            "version": "6.20.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-permission.git",
+                "reference": "31c05679102c73f3b0d05790d2400182745a5615"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/31c05679102c73f3b0d05790d2400182745a5615",
+                "reference": "31c05679102c73f3b0d05790d2400182745a5615",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/auth": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/container": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/contracts": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/database": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "laravel/passport": "^11.0|^12.0",
+                "laravel/pint": "^1.0",
+                "orchestra/testbench": "^6.23|^7.0|^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^9.4|^10.1|^11.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Permission\\PermissionServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-main": "6.x-dev",
+                    "dev-master": "6.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Spatie\\Permission\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Permission handling for Laravel 8.0 and up",
+            "homepage": "https://github.com/spatie/laravel-permission",
+            "keywords": [
+                "acl",
+                "laravel",
+                "permission",
+                "permissions",
+                "rbac",
+                "roles",
+                "security",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-permission/issues",
+                "source": "https://github.com/spatie/laravel-permission/tree/6.20.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-06-05T07:33:07+00:00"
+        },
+        {
+            "name": "spatie/opening-hours",
+            "version": "4.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/opening-hours.git",
+                "reference": "c89d2b15e51ed2bd9073025dc3b82551848bf87e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/opening-hours/zipball/c89d2b15e51ed2bd9073025dc3b82551848bf87e",
+                "reference": "c89d2b15e51ed2bd9073025dc3b82551848bf87e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "kylekatarnls/multi-tester": "^2.5",
+                "phpunit/phpunit": "^11.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev",
+                    "dev-3.x": "3.x-dev",
+                    "dev-master": "4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\OpeningHours\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "kylekatarnls",
+                    "homepage": "https://github.com/kylekatarnls",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A helper to query and format a set of opening hours",
+            "homepage": "https://github.com/spatie/opening-hours",
+            "keywords": [
+                "hours",
+                "opening",
+                "opening-hours",
+                "schedule",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/opening-hours/issues",
+                "source": "https://github.com/spatie/opening-hours/tree/4.2.1"
+            },
+            "time": "2025-05-24T16:39:27+00:00"
         },
         {
             "name": "symfony/clock",
