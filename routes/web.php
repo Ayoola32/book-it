@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
@@ -31,6 +32,7 @@ Route::get('/categories/{category}/services', [FrontendController::class, 'getSe
 Route::get('/services/{service}/employees', [FrontendController::class, 'getEmployees'])->name('get.employees');
 Route::get('/employees/{employee}/availability/{date?}', [FrontendController::class, 'getEmployeeAvailability'])->name('employee.availability');
 
+Route::post('/bookings', [AppointmentController::class, 'store'])->name('bookings.store');
 
 
 
