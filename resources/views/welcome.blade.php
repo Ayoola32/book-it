@@ -255,4 +255,62 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+
+        <script>
+        $(document).ready(function () {
+            const categories = @json($categories);
+            const employees = @json($employees);
+
+            let bookingState = {
+                currentStep: 1,
+                selectedCategory: null,
+                selectedService: null,
+                selectedEmployee: null,
+                selectedDate: null,
+                selectedTime: null
+            };
+
+            updateProgressBar();
+            generateCalendar();
+
+            const container = $('#categories-container');
+
+            let html = '';
+            $.each(categories, function(index, category) {
+                html += `
+                    <div class="col">
+                        <div class="card border h-100 category-card text-center rounded p-2" data-category="${category.slug}">
+                            <div class="card-body">
+                                <h5 class="card-title">${category.name}</h5>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.html(html);
+
+            $(document).on("click", ".category-card", function () {
+                $(".category-card").removeClass("selected");
+                $(this).addClass("selected");
+
+                const categoryId = $(this).data("category");
+                bookingState.selectedCategory = categoryId;
+
+                bookingState.selectedService = null;
+                bookingState.selectedEmployee = null;
+                bookingState.selectedDate = null;
+                bookingState.selectedTime = null;
+
+                updateServicesStep(categoryId);
+            });
+
+
+
+
+
+
+
+        });
+
+    </script>
 </body>
