@@ -28,6 +28,9 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/categories/{category}/services', [FrontendController::class, 'getServices'])->name('get.services');
+Route::get('/services/{service}/employees', [FrontendController::class, 'getEmployees'])->name('get.employees');
+Route::get('/employees/{employee}/availability/{date?}', [FrontendController::class, 'getEmployeeAvailability'])->name('employee.availability');
+
 
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Employee;
+use App\Models\ServiceSubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Number;
 
@@ -54,6 +55,29 @@ class FrontendController extends Controller
         return response()->json([
             'success' => true,
             'services' => $services
+        ]);
+    }
+
+    public function getEmployees(Request $request, ServiceSubCategory $service)
+    {
+        $employees = $service->employees()
+            ->whereHas('user', function ($query) {
+                $query->where('status', 1);
+            })
+            ->with('user') // Eager load user details
+            ->get();
+
+        if ($employees->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No employees available for this service'
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'employees' => $employees,
+            'service' => $service
         ]);
     }
 

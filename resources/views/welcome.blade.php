@@ -305,6 +305,531 @@
             });
 
 
+            $("#next-step").click(function () {
+                const currentStep = bookingState.currentStep;
+                if (!validateStep(currentStep)) return;
+                if (currentStep < 5) {
+                    goToStep(currentStep + 1);
+                } else {
+                    if ($("#customer-info-form")[0].checkValidity()) {
+                        submitBooking();
+                    } else {
+                        $("#customer-info-form")[0].reportValidity();
+                    }
+                }
+            });
+
+            $("#prev-step").click(function () {
+                if (bookingState.currentStep > 1) goToStep(bookingState.currentStep - 1);
+            });
+
+
+
+
+                        $(document).on("click", ".service-card", function () {
+                $(".service-card").removeClass("selected");
+                $(this).addClass("selected");
+
+                const serviceId = $(this).data("service");
+                const serviceTitle = $(this).find('.card-title').text();
+                const servicePrice = $(this).find('.fw-bold').text();
+                const serviceDuration = $(this).find('.card-text:contains("Duration:")').text().replace('Duration: ', '');
+
+                bookingState.selectedService = {
+                    id: serviceId,
+                    title: serviceTitle,
+                    price: servicePrice,
+                    duration: serviceDuration
+                };
+
+                bookingState.selectedEmployee = null;
+                bookingState.selectedDate = null;
+                bookingState.selectedTime = null;
+
+                $(".employee-card").removeClass("selected");
+                $("#selected-date").text("");
+                $("#selected-time").text("");
+                $("#employees-container").empty();
+
+                $("#employees-container").html('<div class="col-12 text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+
+                updateEmployeesStep(serviceId);
+
+                $("#services-step").addClass("d-none");
+                $("#employees-step").removeClass("d-none");
+                $(".step-indicator[data-step='services']").removeClass("active current").addClass("completed");
+                $(".step-indicator[data-step='employees']").addClass("active current");
+            });
+
+
+                        function updateServicesStep(categoryId) {
+                // Show loading state if needed
+                $("#services-container").html(
+                    '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>'
+                );
+
+                // Make AJAX request to get services for this category
+                $.ajax({
+                    url: `/categories/${categoryId}/services`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success && response.services) {
+                            const services = response.services;
+
+                            // Update category name display
+                            $(".selected-category-name").text(
+                                `Selected Category: ${services[0]?.category?.title || ''}`);
+
+                            // Clear services container
+                            $("#services-container").empty();
+
+                            // Add services with animation delay
+                            services.forEach((service, index) => {
+                                // Determine the price display
+                                let priceDisplay;
+                                if (service.sale_price) {
+                                    // If sale price exists, show both with strike-through on original price
+                                    priceDisplay =
+                                        `<span class="text-decoration-line-through text-muted">${service.price}</span> <span class=" fw-bold">${service.sale_price}</span>`;
+                                } else {
+                                    // If no sale price, just show regular price normally
+                                    priceDisplay =
+                                        `<span class="fw-bold">${service.price}</span>`;
+                                }
+
+                                const serviceCard = `
+                                    <div class="col animate-slide-in" style="animation-delay: ${index * 100}ms">
+                                        <div class="card border h-100 service-card text-center p-2" data-service="${service.id}">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-1">${service.name}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+
+                                $("#services-container").append(serviceCard);
+                            });
+                        } else {
+                            $("#services-container").html(
+                                '<div class="col-12 text-center py-5"><p>No services available for this category.</p></div>'
+                            );
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error(xhr);
+                        $("#services-container").html(
+                            '<div class="col-12 text-center py-5"><p>Error loading services. Please try again.</p></div>'
+                        );
+                    }
+                });
+            }
+
+
+                        function generateCalendar() {
+                const today = new Date();
+                const currentMonth = today.getMonth();
+                const currentYear = today.getFullYear();
+
+                renderCalendar(currentMonth, currentYear);
+            }
+
+            function renderCalendar(month, year) {
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                const startingDay = firstDay.getDay(); // 0 = Sunday
+
+                // Update month display
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August",
+                    "September", "October", "November", "December"
+                ];
+                $("#current-month").text(`${monthNames[month]} ${year}`);
+
+                // Clear calendar
+                $("#calendar-body").empty();
+
+                // Build calendar
+                let date = 1;
+                for (let i = 0; i < 6; i++) {
+                    // Create a table row
+                    const row = $("<tr></tr>");
+
+                    // Create cells for each day of the week
+                    for (let j = 0; j < 7; j++) {
+                        if (i === 0 && j < startingDay) {
+                            // Empty cells before the first day of the month
+                            row.append("<td></td>");
+                        } else if (date > daysInMonth) {
+                            // Break if we've reached the end of the month
+                            break;
+                        } else {
+                            // Create a cell for this date
+                            const today = new Date();
+                            const cellDate = new Date(year, month, date);
+                            const formattedDate =
+                                `${year}-${(month + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
+
+                            // Check if this date is in the past
+                            const isPast = cellDate < new Date(today.setHours(0, 0, 0, 0));
+
+                            // Create the cell with appropriate classes
+                            const cell = $(
+                                `<td class="text-center calendar-day${isPast ? ' disabled' : ''}" data-date="${formattedDate}">${date}</td>`
+                            );
+
+                            row.append(cell);
+                            date++;
+                        }
+                    }
+
+                    // Add the row to the calendar if it has cells
+                    if (row.children().length > 0) {
+                        $("#calendar-body").append(row);
+                    }
+                }
+            }
+
+                        function goToStep(step) {
+                // Hide all steps
+                $(".booking-step").removeClass("active");
+
+                // Show the target step
+                $(`#step${step}`).addClass("active");
+
+                // Update the step indicators
+                $(".step").removeClass("active completed");
+
+                for (let i = 1; i <= 5; i++) {
+                    if (i < step) {
+                        $(`.step[data-step="${i}"]`).addClass("completed");
+                    } else if (i === step) {
+                        $(`.step[data-step="${i}"]`).addClass("active");
+                    }
+                }
+
+                // Update the current step
+                bookingState.currentStep = step;
+
+                // Update the navigation buttons
+                updateNavigationButtons();
+
+                // Update the progress bar
+                updateProgressBar();
+
+                // If we're on the confirmation step, update the summary
+                if (step === 5) {
+                    updateSummary();
+                }
+
+                // Scroll to top of booking container
+                $(".booking-container")[0].scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
+
+
+            function updateProgressBar() {
+                const progress = ((bookingState.currentStep - 1) / 4) * 100;
+                $(".progress-bar-steps .progress").css("width", `${progress}%`);
+            }
+
+
+            function updateNavigationButtons() {
+                // Enable/disable previous button
+                if (bookingState.currentStep === 1) {
+                    $("#prev-step").prop("disabled", true);
+                } else {
+                    $("#prev-step").prop("disabled", false);
+                }
+
+                // Update next button text
+                if (bookingState.currentStep === 5) {
+                    $("#next-step").html('Confirm Booking <i class="bi bi-check-circle"></i>');
+                } else {
+                    $("#next-step").html('Next <i class="bi bi-arrow-right"></i>');
+                }
+            }
+
+
+                        function validateStep(step) {
+                switch (step) {
+                    case 1:
+                        if (!bookingState.selectedCategory) {
+                            alert("Please select a category");
+                            return false;
+                        }
+                        return true;
+                    case 2:
+                        if (!bookingState.selectedService) {
+                            alert("Please select a service");
+                            return false;
+                        }
+                        return true;
+                    case 3:
+                        if (!bookingState.selectedEmployee) {
+                            alert("Please select a staff member");
+                            return false;
+                        }
+                        return true;
+                    case 4:
+                        if (!bookingState.selectedDate) {
+                            alert("Please select a date");
+                            return false;
+                        }
+                        if (!bookingState.selectedTime) {
+                            alert("Please select a time slot");
+                            return false;
+                        }
+                        return true;
+                    default:
+                        return true;
+                }
+            }
+
+
+                        function updateEmployeesStep(serviceId) {
+                // Show loading state
+                $("#employees-container").html(
+                    '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>'
+                );
+
+                // Make AJAX request to get employees for this service
+                $.ajax({
+                    url: `/services/${serviceId}/employees`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success && response.employees) {
+                            const employees = response.employees;
+                            const service = response.service;
+
+                            // Determine the price display
+                            let priceDisplay;
+                            if (service.sale_price) {
+                                // If sale price exists, show both with strike-through on original price
+                                priceDisplay =
+                                    `<span class="">${service.sale_price}</span>`;
+                            } else {
+                                // If no sale price, just show regular price normally
+                                priceDisplay =
+                                    `<span class="fw-bold">${service.price}</span>`;
+                            }
+
+                            // Update service name display
+                            $(".selected-service-name").html(
+                                `Selected Service: ${service.name} (${bookingState.selectedService.price})`
+                                );
+
+                            // Clear employees container
+                            $("#employees-container").empty();
+
+                            // Add employees with animation delay
+                            employees.forEach((employee, index) => {
+                                const employeeCard = `
+                                <div class="col animate-slide-in" style="animation-delay: ${index * 100}ms">
+                                    <div class="card border h-100 employee-card text-center p-2" data-employee="${employee.id}">
+                                        <div class="card-body">
+                                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                                                ${employee.user.image ?
+                                                    `<img src="uploads/images/profile/${employee.user.image}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">` :
+                                                    `<i class="bi bi-person text-primary" style="font-size: 2rem;"></i>`
+                                                }
+                                            </div>
+                                            <h5 class="card-title">${employee.user.name}</h5>
+                                            <p class="card-text text-muted">${employee.position || 'Professional'}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                                $("#employees-container").append(employeeCard);
+                            });
+                        } else {
+                            $("#employees-container").html(
+                                '<div class="col-12 text-center py-5"><p>No employees available for this service.</p></div>'
+                            );
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error(xhr);
+                        $("#employees-container").html(
+                            '<div class="col-12 text-center py-5"><p>Error loading employees. Please try again.</p></div>'
+                        );
+                    }
+                });
+            }
+
+
+            $(document).on("click", ".employee-card", function () {
+                $(".employee-card").removeClass("selected");
+                $(this).addClass("selected");
+
+                const employeeId = $(this).data("employee");
+                const employee = employees.find(e => e.id === employeeId);
+
+                bookingState.selectedEmployee = employee;
+                bookingState.selectedDate = null;
+                bookingState.selectedTime = null;
+
+                updateCalendar();
+            });
+
+
+                        function updateTimeSlots(selectedDate) {
+                if (!selectedDate) {
+                    $("#time-slots-container").html(`
+                    <div class="text-center w-100 py-4">
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            No date selected
+                        </div>
+                    </div>
+                `);
+                    return;
+                }
+
+                const employeeId = bookingState.selectedEmployee.id;
+                const apiDate = new Date(selectedDate).toISOString().split('T')[0];
+
+                // Show loading state only when actually fetching
+                $("#time-slots-container").html(`
+                    <div class="text-center w-100 py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class="mt-2">Checking availability...</div>
+                    </div>
+                `);
+
+                $.ajax({
+                    url: `/employees/${employeeId}/availability/${apiDate}`,
+                    success: function(response) {
+                        $("#time-slots-container").empty();
+
+                        if (response.available_slots.length === 0) {
+                            $("#time-slots-container").html(`
+                    <div class="text-center py-4">
+                        <div class="alert alert-warning">
+                            <i class="bi bi-clock-history me-2"></i>
+                            No available slots for this date
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="updateCalendar()">
+                            <i class="bi bi-arrow-left me-1"></i> Back to calendar
+                        </button>
+                    </div>
+                `);
+                            return;
+                        }
+
+                        // Add slot duration info
+                        $("#time-slots-container").append(`
+                            <div class="slot-info mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        Each slot: ${response.slot_duration} mins
+                                        ${response.break_duration ? ` | Break: ${response.break_duration} mins` : ''}
+                                    </small>
+
+                                </div>
+                            </div>
+                        `);
+
+                        // Add each time slot
+                        const $slotsContainer = $("<div class='slots-grid'></div>");
+                        response.available_slots.forEach(slot => {
+                            const slotElement = $(`
+                            <div class="time-slot btn btn-outline-primary mb-2"
+                                data-start="${slot.start}"
+                                data-end="${slot.end}"
+                                title="Select ${slot.display}"
+                                data-time="${slot.display}">
+                                <i class="bi bi-clock me-1"></i>
+                                ${slot.display}
+                            </div>
+                        `);
+
+                            slotElement.on('click', function() {
+                                $(".time-slot").removeClass("selected active");
+                                $(this).addClass("selected active");
+                                bookingState.selectedTime = {
+                                    start: $(this).data('start'),
+                                    end: $(this).data('end'),
+                                    display: $(this).text()
+                                };
+                                updateBookingSummary();
+                            });
+
+                            $slotsContainer.append(slotElement);
+                        });
+                        $("#time-slots-container").append($slotsContainer);
+                    },
+                    error: function(xhr) {
+                        $("#time-slots-container").html(`
+                            <div class="text-center py-4">
+                                <div class="alert alert-danger">
+                                    <i class="bi bi-exclamation-octagon me-2"></i>
+                                    Error loading availability
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary mt-2" onclick="updateTimeSlots('${selectedDate}')">
+                                            <i class="bi bi-arrow-repeat me-1"></i> Try again
+                                        </button>
+                                    </div>
+                                `);
+                    }
+                });
+            }
+
+            function navigateMonth(direction) {
+                const currentMonthText = $("#current-month").text();
+                const [monthName, year] = currentMonthText.split(" ");
+
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August",
+                    "September", "October", "November", "December"
+                ];
+                let month = monthNames.indexOf(monthName);
+                let yearNum = parseInt(year);
+
+                month += direction;
+
+                if (month < 0) {
+                    month = 11;
+                    yearNum--;
+                } else if (month > 11) {
+                    month = 0;
+                    yearNum++;
+                }
+
+                renderCalendar(month, yearNum);
+            }
+
+
+            $(document).on("click", ".calendar-day:not(.disabled)", function () {
+                $(".calendar-day").removeClass("selected");
+                $(this).addClass("selected");
+
+                const date = $(this).data("date");
+                bookingState.selectedDate = date;
+                bookingState.selectedTime = null;
+
+                updateTimeSlots(date);
+            });
+
+            $(document).on("click", ".time-slot:not(.disabled)", function () {
+                $(".time-slot").removeClass("selected");
+                $(this).addClass("selected");
+
+                const time = $(this).data("time");
+                bookingState.selectedTime = time;
+            });
+
+            $("#prev-month").click(function () {
+                navigateMonth(-1);
+            });
+
+            $("#next-month").click(function () {
+                navigateMonth(1);
+            });
 
 
 
