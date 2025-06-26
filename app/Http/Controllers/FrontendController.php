@@ -11,7 +11,7 @@ class FrontendController extends Controller
 public function index(Request $request)
 {
     $categories = Category::with([
-        'subCategories' => function ($query) {
+        'services' => function ($query) {
             $query->where('status', 1)
                 ->with([
                     'employees' => function ($query) {
