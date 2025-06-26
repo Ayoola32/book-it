@@ -44,8 +44,8 @@ class AppointmentDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
+                    ->orderBy(0)
+                    // ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
@@ -62,15 +62,21 @@ class AppointmentDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id')->width(60),
+            Column::make('name')->title('Full Name'),
+            Column::make('email')->title('Email'),
+            Column::make('phone')->title('Phone'),
+            Column::make('amount')->title('Amount'),
+            Column::make('service_id')->title('Service'),
+            Column::make('employee_id')->title('Staff'),
+            Column::make('booking_date')->title('Date'),
+            Column::make('booking_time')->title('Time'),
+            Column::make('status')->title('Status')->width(60),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(160)
+                ->addClass('text-center'),
         ];
     }
 
