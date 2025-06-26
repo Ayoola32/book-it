@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
@@ -73,6 +74,8 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
 
     Route::resource('/user', UserController::class);
     Route::post('/user/update-status/{id}', [UserController::class, 'updateStatus'])->name('user.update-status');
+
+    Route::resource('/appointment', AppointmentController::class);
 
 
 });
