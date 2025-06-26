@@ -37,8 +37,14 @@
                     <div class="step-number">3</div>
                     <div class="step-title">Staff</div>
                 </div>
-
-
+                <div class="step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Date & Time</div>
+                </div>
+                <div class="step" data-step="5">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Confirm</div>
+                </div>
                 <div class="progress-bar-steps">
                     <div class="progress"></div>
                 </div>
@@ -71,7 +77,132 @@
                     </div>
                 </div>
 
+                <!-- Step 4: Date and Time Selection -->
+                <div class="booking-step" id="step4">
+                    <h3 class="mb-4">Select Date & Time</h3>
+                    <div class="selected-employee-name mb-3 fw-bold"></div>
 
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-4">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-sm btn-outline-secondary" id="prev-month"><i
+                                            class="bi bi-chevron-left"></i></button>
+                                    <h5 class="mb-0" id="current-month">March 2023</h5>
+                                    <button class="btn btn-sm btn-outline-secondary" id="next-month"><i
+                                            class="bi bi-chevron-right"></i></button>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-calendar">
+                                        <thead>
+                                            <tr>
+                                                <th>Sun</th>
+                                                <th>Mon</th>
+                                                <th>Tue</th>
+                                                <th>Wed</th>
+                                                <th>Thu</th>
+                                                <th>Fri</th>
+                                                <th>Sat</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="calendar-body">
+                                            <!-- Calendar will be generated dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Available Time Slots</h5>
+                                    <div id="selected-date-display" class="text-muted small"></div>
+                                </div>
+                                <div class="card-body">
+                                    <div id="time-slots-container" class="d-flex flex-wrap">
+                                        <!-- Time slots will be loaded dynamically -->
+                                        <div class="text-center text-muted w-100 py-4">
+                                            Please select a date to view available times
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Confirmation -->
+                <div class="booking-step" id="step5">
+                    <h3 class="mb-4">Confirm Your Booking</h3>
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Booking Summary</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="summary-item">
+                                <div class="row">
+                                    <div class="col-md-4 text-muted">Category:</div>
+                                    <div class="col-md-8" id="summary-category"></div>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="row">
+                                    <div class="col-md-4 text-muted">Service:</div>
+                                    <div class="col-md-8" id="summary-service"></div>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="row">
+                                    <div class="col-md-4 text-muted">Staff Member:</div>
+                                    <div class="col-md-8" id="summary-employee"></div>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="row">
+                                    <div class="col-md-4 text-muted">Date & Time:</div>
+                                    <div class="col-md-8" id="summary-datetime"></div>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="row">
+                                    <div class="col-md-4 text-muted">Duration:</div>
+                                    <div class="col-md-8" id="summary-duration"></div>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="row">
+                                    <div class="col-md-4 text-muted">Price:</div>
+                                    <div class="col-md-8" id="summary-price"></div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <h5>Your Information</h5>
+                                <form id="customer-info-form">
+                                    @csrf
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="customer-name" class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" id="customer-name" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="customer-email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="customer-email" required>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="customer-phone" class="form-label">Phone</label>
+                                            <input type="tel" class="form-control" id="customer-phone" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="customer-notes" class="form-label">Notes (Optional)</label>
+                                            <textarea class="form-control" id="customer-notes" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="booking-footer">
@@ -93,229 +224,35 @@
         </div>
     </footer>
 
-
+    <!-- Success Modal -->
+    <div class="modal fade" id="bookingSuccessModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Booking Confirmed!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <i class="bi bi-check-circle text-success" style="font-size: 4rem;"></i>
+                    <h4 class="mt-3">Thank You!</h4>
+                    <p>Your appointment has been successfully booked.</p>
+                    <div class="alert alert-info mt-3">
+                        <p class="mb-0">A confirmation email has been sent to your email address.</p>
+                    </div>
+                    <div class="booking-details mt-4 text-start">
+                        <h5>Booking Details:</h5>
+                        <div id="modal-booking-details"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
-    <script>
-        // Step 1 - Inject the categories and employees as JSON variables
-        const categories = @json($categories);
-        const employees = @json($employees);
-
-
-        // Step 2 - Add bookingState object to manage the booking process
-        let bookingState = {
-            currentStep: 1,
-            selectedCategory: null,
-            selectedService: null,
-            selectedEmployee: null
-        };
-
-        // Step 3 - Load Categories
-        $(document).ready(function () {
-            const container = $('#categories-container');
-            let html = '';
-
-            $.each(categories, function(index, category) {
-                html += `
-                    <div class="col">
-                        <div class="card category-card text-center border p-3 h-100" data-category="${category.id}">
-                            <div class="card-body">
-                                <h5 class="card-title">${category.name}</h5>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.html(html);
-        });
-
-        // Step 4 - Handle Category Click → Show Services
-        $(document).on("click", ".category-card", function () {
-            $(".category-card").removeClass("selected");
-            $(this).addClass("selected");
-
-            const categoryId = $(this).data("category");
-            bookingState.selectedCategory = categoryId;
-
-            // Get selected category title
-            const selectedCategory = categories.find(c => c.id == categoryId);
-            $(".selected-category-name").text(`Selected Category: ${selectedCategory?.name || ''}`);
-
-            // Clear service selection and staff
-            bookingState.selectedService = null;
-            bookingState.selectedEmployee = null;
-
-            $("#services-container").empty();
-            $("#employees-container").empty();
-        });
-
-
-        // STEP 5 - Load services based on selected category
-        $("#next-step").click(function () {
-            const step = bookingState.currentStep;
-
-            if (!validateStep(step)) return;
-
-            if (step === 1) {
-                loadServices();
-            } else if (step === 2) {
-                loadEmployees();
-            }
-
-            goToStep(step + 1);
-        });
-
-        $("#prev-step").click(function () {
-            if (bookingState.currentStep > 1) {
-                goToStep(bookingState.currentStep - 1);
-            }
-        });
-
-
-
-        // STEP 6 - goToStep and validateStep
-        function goToStep(step) {
-            $(".booking-step").removeClass("active");
-            $(`#step${step}`).addClass("active");
-
-            $(".step").removeClass("active completed");
-            for (let i = 1; i <= 3; i++) {
-                if (i < step) $(`.step[data-step='${i}']`).addClass("completed");
-                else if (i === step) $(`.step[data-step='${i}']`).addClass("active");
-            }
-
-            bookingState.currentStep = step;
-            updateProgressBar();
-            updateNavigationButtons();
-        }
-
-        function updateProgressBar() {
-            const progress = ((bookingState.currentStep - 1) / 2) * 100;
-            $(".progress-bar-steps .progress").css("width", `${progress}%`);
-        }
-
-        function updateNavigationButtons() {
-            $('#prev-step').prop('disabled', bookingState.currentStep === 1);
-        }
-
-
-
-        // STEP 7 - Validate Step
-        function validateStep(step) {
-            if (step === 1 && !bookingState.selectedCategory) {
-                alert("Please select a category");
-                return false;
-            }
-            if (step === 2 && !bookingState.selectedService) {
-                alert("Please select a service");
-                return false;
-            }
-            return true;
-        }
-
-
-        // STEP 8 - Load Services
-        function loadServices() {
-            const category = categories.find(c => c.id == bookingState.selectedCategory);
-            const services = category.sub_categories ?? [];
-
-            let html = '';
-            services.forEach(service => {
-                html += `
-                    <div class="col">
-                        <div class="card border service-card text-center p-2 h-100" data-service="${service.id}">
-                            <div class="card-body">
-                                <h5 class="card-title">${service.name}</h5>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            $("#services-container").html(html);
-        }
-
-        // STEP 9 - Handle Service Click → Show Employees
-        $(document).on("click", ".service-card", function () {
-            $(".service-card").removeClass("selected");
-            $(this).addClass("selected");
-
-            const serviceId = $(this).data("service");
-            const category = categories.find(c => c.id == bookingState.selectedCategory);
-            const service = category.sub_categories.find(s => s.id == serviceId);
-
-            bookingState.selectedService = service;
-            bookingState.selectedEmployee = null;
-
-            $(".selected-service-name").text(`Selected Service: ${service.name}`);
-            $("#employees-container").empty();
-        });
-
-
-
-
-        // STEP 4: Load Employees for the Selected Service
-        function loadEmployees() {
-            const service = bookingState.selectedService;
-            const employees = service.employees ?? [];
-
-            let html = '';
-
-            if (employees.length === 0) {
-                html = `<div class="col-12 text-center py-4">
-                            <div class="alert alert-warning">
-                                No staff available for this service.
-                            </div>
-                        </div>`;
-            } else {
-                employees.forEach(employee => {
-                    let roleText;
-                    if (employee.user.role === 'employee') {
-                        roleText = 'Staff Member';
-                    } else {
-                        roleText = employee.user.role ?? 'Staff Member';
-                    }
-                    html += `
-                        <div class="col">
-                            <div class="card border employee-card text-center p-2 h-100" data-employee="${employee.id}">
-                                <div class="card-body">
-                                    <h5 class="card-title">${employee.user.name}</h5>
-                                    <p class="card-text">${roleText}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-
-            $("#employees-container").html(html);
-        }
-
-        // Step 10 - Handle Employee Click → Select Employee
-        $(document).on("click", ".employee-card", function () {
-            $(".employee-card").removeClass("selected");
-            $(this).addClass("selected");
-
-            const employeeId = $(this).data("employee");
-            const service = bookingState.selectedService;
-            const selectedEmployee = service.employees.find(e => e.id == employeeId);
-
-            bookingState.selectedEmployee = selectedEmployee;
-        });
-
-
-
-
-
-
-    </script>
-
-
-
+    
 </body>
-
-</html>
