@@ -17,4 +17,9 @@ class ServiceSubCategory extends Model
     {
         return $this->belongsToMany(Employee::class, 'employee_service_sub_category');
     }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }
