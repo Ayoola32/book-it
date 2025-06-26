@@ -24,12 +24,12 @@ Route::middleware('auth')->group(function () {
     Route::put('employee-availability/{employee}',[ProfileController::class,'updateAvailability'])->name('employee.availability.update');
     Route::put('/profile-pic/{user}',[ProfileController::class,'updateProfileImage'])->name('profile.image.update');
 
-
-
-
-
-
 });
+
+
+Route::get('/categories/{category}/services', [FrontendController::class, 'getServices'])->name('get.services');
+
+
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
