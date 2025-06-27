@@ -22,7 +22,26 @@ class AppointmentDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'appointment.action')
+            ->addColumn('service_id', function ($query) {
+                return '
+                    <span class="">' . $query->service->name . '</span>
+
+                ';
+            })            
+            ->addColumn('employee_id', function ($query) {
+                return '
+                    <span class="">' . $query->employee->user->name . '</span>
+
+                ';
+            })            
+            ->addColumn('action', function ($query) {
+                return '
+                    <button class="btn btn-sm btn-primary">
+                        View
+                    </button>
+                ';
+            })            
+            ->rawColumns(['service_id', 'employee_id', 'action'])
             ->setRowId('id');
     }
 
