@@ -925,7 +925,7 @@
                     amount: parseFloat(bookingState.selectedService.price.replace(/[^0-9.]/g, '')),
                     booking_date: bookingState.selectedDate,
                     booking_time: bookingState.selectedTime.start || bookingState.selectedTime,
-                    status: 'Pending payment',
+                    status: 'Pending',
                     _token: csrfToken // Include CSRF token in payload
                 };
 

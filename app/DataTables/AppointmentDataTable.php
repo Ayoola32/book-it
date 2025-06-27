@@ -22,7 +22,7 @@ class AppointmentDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         $statusColors = [
-            'Pending payment' => '#f39c12',
+            'Pending' => '#f39c12',
             'Processing' => '#3498db',
             'Confirmed' => '#2ecc71',
             'Cancelled' => '#ff0000',
