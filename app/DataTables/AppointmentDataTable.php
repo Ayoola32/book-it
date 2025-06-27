@@ -21,6 +21,19 @@ class AppointmentDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        $statusColors = [
+            'Pending payment' => '#f39c12',
+            'Processing' => '#3498db',
+            'Confirmed' => '#2ecc71',
+            'Cancelled' => '#ff0000',
+            'Completed' => '#008000',
+            'On Hold' => '#95a5a6',
+            'Rescheduled' => '#f1c40f',
+            'No Show' => '#e67e22',
+        ];
+
+
+
         return (new EloquentDataTable($query))
             ->addColumn('service_id', function ($query) {
                 return '
@@ -34,6 +47,17 @@ class AppointmentDataTable extends DataTable
 
                 ';
             })            
+            ->addColumn('status', function ($query) use ($statusColors) {
+                $status = $query->status;
+                $color = $statusColors[$status] ?? '#7f8c8d';
+
+                return '
+                    <span class="badge px-2 py-1"
+                        style="background-color: ' . $color . '; color: white;">
+                        ' . $status . '
+                    </span>
+                ';
+            })            
             ->addColumn('action', function ($query) {
                 return '
                     <button class="btn btn-sm btn-primary">
@@ -41,7 +65,7 @@ class AppointmentDataTable extends DataTable
                     </button>
                 ';
             })            
-            ->rawColumns(['service_id', 'employee_id', 'action'])
+            ->rawColumns(['service_id', 'employee_id', 'status', 'action'])
             ->setRowId('id');
     }
 
