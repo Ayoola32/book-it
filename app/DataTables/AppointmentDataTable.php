@@ -35,6 +35,7 @@ class AppointmentDataTable extends DataTable
 
 
         return (new EloquentDataTable($query))
+            ->addIndexColumn()
             ->addColumn('service_id', function ($query) {
                 return '
                     <span class="">' . $query->service->name . '</span>
@@ -105,7 +106,7 @@ class AppointmentDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->width(60),
+            Column::computed('DT_RowIndex')->title('#')->width(30)->addClass('text-center'),
             Column::make('name')->title('Full Name'),
             Column::make('email')->title('Email'),
             Column::make('phone')->title('Phone'),
