@@ -42,9 +42,22 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" onclick="return confirm('Are you sure you want to update booking status?')"
-                            class="btn btn-danger">Update Status</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <div class="row">
+                            <div class="col-12 text-end">
+                                <p class="text-danger mt-2 d-none" id="statusLockedMessage">
+                                    You cannot change the status of a Cancelled / Completed Appointment.
+                                </p>
+
+                                <p class="text-secondary mt-2" id="statusNotifyMessage">
+                                    <strong>Note:</strong> Changing the status will notify the client via email.
+                                </p>
+                                <button type="submit"
+                                    id="updateStatusButton"
+                                    onclick="return confirm('Are you sure you want to update booking status?')"
+                                    class="btn btn-danger me-2">Update Status</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -102,6 +115,25 @@
             // Set status select dropdown
             var status = $(this).data('status');
             $('#modalStatusSelect').val(status);
+
+            if (status === 'Cancelled' || status === 'Completed') {
+                $('#updateStatusButton').prop('disabled', true);
+                $('#updateStatusButton').addClass('disabled');
+                $('#updateStatusButton').text('Cannot change status');
+            } else {
+                $('#updateStatusButton').prop('disabled', false);
+                $('#updateStatusButton').removeClass('disabled');
+                $('#updateStatusButton').text('Update Status');
+            }
+
+            if (status === 'Cancelled' || status === 'Completed') {
+                $('#statusLockedMessage').removeClass('d-none');
+                $('#statusNotifyMessage').addClass('d-none');
+            } else {
+                $('#statusLockedMessage').addClass('d-none');
+                $('#statusNotifyMessage').removeClass('d-none');
+            }
+
 
             // Set status badge
             var statusColors = {
