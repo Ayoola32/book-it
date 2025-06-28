@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 @section('content')
     <!-- Modal -->
-    <form id="appointmentStatusForm" method="POST" action="">
+    <form id="appointmentStatusForm" method="POST" action="{{ route('appointment.update-status')}}">
         @csrf
         <input type="hidden" name="appointment_id" id="modalAppointmentId">
 

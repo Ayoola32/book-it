@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::put('employee-availability/{employee}',[ProfileController::class,'updateAvailability'])->name('employee.availability.update');
     Route::put('/profile-pic/{user}',[ProfileController::class,'updateProfileImage'])->name('profile.image.update');
     Route::get('appointments', [AppointmentController::class, 'index2'])->name('employee.appointment.index');
+    Route::post('/appointment/update-status', [AppointmentController::class, 'updateStatus'])->name('appointment.update-status');
+
 
 });
 

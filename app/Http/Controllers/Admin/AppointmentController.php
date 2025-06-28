@@ -126,7 +126,7 @@ class AppointmentController extends Controller
         $appointment->status = $request->status;
         $appointment->save();
 
-        return redirect()->route('admin.appointment.index')->with('success', 'Appointment status updated successfully!');
+        return redirect()->back()->with('success', 'Appointment status updated successfully!');
     }
 
     /**
