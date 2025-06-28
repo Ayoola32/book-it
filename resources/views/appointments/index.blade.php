@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('layouts.master')
 @section('content')
     <!-- Modal -->
     <form id="appointmentStatusForm" method="POST" action="{{ route('appointment.update-status')}}">
