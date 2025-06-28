@@ -59,13 +59,25 @@ class AppointmentDataTable extends DataTable
                     </span>
                 ';
             })            
-            ->addColumn('action', function ($query) {
+            ->addColumn('action', function ($appointment) {
                 return '
-                    <button class="btn btn-sm btn-primary">
+                    <button class="btn btn-primary btn-sm py-0 px-1 view-appointment-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#appointmentModal"
+                        data-id="' . $appointment->id . '"
+                        data-name="' . e($appointment->name) . '"
+                        data-service="' . e($appointment->service->name ?? 'N/A') . '"
+                        data-email="' . e($appointment->email) . '"
+                        data-phone="' . e($appointment->phone) . '"
+                        data-employee="' . e($appointment->employee->user->name ?? 'N/A') . '"
+                        data-start="' . e($appointment->booking_date . ' ' . $appointment->booking_time) . '"
+                        data-amount="' . e($appointment->amount) . '"
+                        data-notes="' . e($appointment->notes) . '"
+                        data-status="' . e($appointment->status) . '">
                         View
                     </button>
                 ';
-            })            
+            })           
             ->rawColumns(['service_id', 'employee_id', 'status', 'action'])
             ->setRowId('id');
     }
