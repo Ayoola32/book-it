@@ -122,7 +122,13 @@ class AppointmentController extends Controller
             'status' => 'required|string|in:Pending,Confirmed,Cancelled,Completed,Processing,On Hold,Rescheduled,No Show',
         ]);
 
-        $appointment = Appointment::findOrFail($request->appointment_id);   
+        $appointment = Appointment::findOrFail($request->appointment_id);  
+        
+        // protect against editing after Completed or Cancelled
+        if (in_array($appointment->status, ['Cancelled', 'Completed'])) {
+            return redirect()->back()->with('error', 'You cannot change the status of a Cancelled or Completed Appointment.');
+        }
+        
         $appointment->status = $request->status;
         $appointment->save();
 
