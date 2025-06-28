@@ -44,7 +44,7 @@
                                 <li class="nav-item"><a class="nav-link {{ old('active_tab') === 'bio' ? 'active' : '' }}" data-bs-toggle="tab" href="#bio" role="tab">Bio</a></li>
                                 @if (Auth::user()->role === 'employee')
                                     <li class="nav-item"><a class="nav-link {{ old('active_tab') === 'employee' ? 'active' : '' }}" data-bs-toggle="tab" href="#availability" role="tab">Availability</a></li>
-                                    <li class="nav-item"><a class="nav-link {{ old('active_tab') === 'appointments' ? 'active' : '' }}" data-bs-toggle="tab" href="#appointments" role="tab">Appointments</a></li>
+                                    {{-- <li class="nav-item"><a class="nav-link {{ old('active_tab') === 'appointments' ? 'active' : '' }}" data-bs-toggle="tab" href="#appointments" role="tab">Appointments</a></li> --}}
                                 @endif
                                 <li class="nav-item"><a class="nav-link {{ old('active_tab') === 'password' ? 'active' : '' }}" data-bs-toggle="tab" href="#password" role="tab">Change Password</a></li>
                             </ul>
@@ -243,11 +243,11 @@
                                     </div>
 
                                     <!-- Appointments Tab -->
-                                    <div class="tab-pane fade {{ old('active_tab') === 'appointments' ? 'show active' : '' }}" id="appointments" role="tabpanel">
+                                    {{-- <div class="tab-pane fade {{ old('active_tab') === 'appointments' ? 'show active' : '' }}" id="appointments" role="tabpanel">
                                         <div class="table-responsive">
                                             <p>No appointments available.</p>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 @endif
 
 
