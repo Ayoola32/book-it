@@ -30,7 +30,7 @@
                         <div class="form-group ">
                             <label><strong>Status:</strong></label>
                             <select name="status" class="form-control" id="modalStatusSelect">
-                                <option value="Pending payment">Pending payment</option>
+                                <option value="Pending">Pending</option>
                                 <option value="Processing">Processing</option>
                                 <option value="Confirmed">Confirmed</option>
                                 <option value="Cancelled">Cancelled</option>
@@ -105,7 +105,7 @@
 
             // Set status badge
             var statusColors = {
-                'Pending payment': '#f39c12',
+                'Pending': '#f39c12',
                 'Processing': '#3498db',
                 'Confirmed': '#2ecc71',
                 'Cancelled': '#ff0000',
