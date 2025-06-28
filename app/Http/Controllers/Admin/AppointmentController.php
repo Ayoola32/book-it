@@ -102,6 +102,23 @@ class AppointmentController extends Controller
     }
 
     /**
+     * Update the status of the appointment.
+     */
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'appointment_id' => 'required|exists:appointments,id',
+            'status' => 'required|string|in:Pending,Confirmed,Cancelled,Completed,Processing,On Hold,Rescheduled,No Show',
+        ]);
+
+        $appointment = Appointment::findOrFail($request->appointment_id);   
+        $appointment->status = $request->status;
+        $appointment->save();
+
+        return redirect()->route('admin.appointment.index')->with('success', 'Appointment status updated successfully!');
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)

@@ -76,6 +76,7 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::post('/user/update-status/{id}', [UserController::class, 'updateStatus'])->name('user.update-status');
 
     Route::resource('/appointment', AppointmentController::class);
+    Route::post('/appointment/update-status', [AppointmentController::class, 'updateStatus'])->name('appointment.update-status');
 
 
 });
