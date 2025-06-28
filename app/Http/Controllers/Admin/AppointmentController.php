@@ -19,6 +19,17 @@ class AppointmentController extends Controller
     }
 
     /**
+     * Display a listing of the resource for employees.
+     */
+    public function index2(AppointmentDataTable $dataTable)
+    {
+        $employeeId = auth()->user()->employee->id;
+
+        return $dataTable->forEmployee($employeeId)->render('appointments.index');
+    }
+
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

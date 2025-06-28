@@ -14,6 +14,8 @@ use Yajra\DataTables\Services\DataTable;
 
 class AppointmentDataTable extends DataTable
 {
+    protected ?int $employeeId = null;
+
     /**
      * Build the DataTable class.
      *
@@ -82,12 +84,34 @@ class AppointmentDataTable extends DataTable
             ->setRowId('id');
     }
 
+
+
+
+    /**
+     * Set the employee ID for filtering appointments.
+     *
+     * @param int $employeeId
+     * @return static
+     */
+    public function forEmployee(int $employeeId): static
+    {
+        $this->employeeId = $employeeId;
+        return $this;
+    }
+
+
     /**
      * Get the query source of dataTable.
      */
     public function query(Appointment $model): QueryBuilder
     {
-        return $model->newQuery();
+        $query = $model->newQuery();
+
+        if ($this->employeeId) {
+            $query->where('employee_id', $this->employeeId);
+        }
+
+        return $query;
     }
 
     /**
