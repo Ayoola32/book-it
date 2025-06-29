@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
+    @stack('styles')
     <!-- Vite compiled CSS -->
     @vite(['resources/css/admin.css', 'resources/css/app.css'])
 
