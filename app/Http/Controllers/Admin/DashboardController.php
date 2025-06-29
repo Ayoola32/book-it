@@ -50,29 +50,28 @@ class DashboardController extends Controller
                 }
 
                 return [
-                    'id' => $appointment->id, // Add appointment ID
-                    'title' => sprintf('%s - %s',
-                        $appointment->name,
-                        $appointment->service->name ?? 'Service'
-                    ),
+                    'id' => $appointment->id,
+                    'title' => sprintf('%s - %s', $appointment->name, $appointment->service->name ?? 'Service'),
                     'start' => $startDateTime->toIso8601String(),
                     'end' => $endDateTime->toIso8601String(),
-                    'description' => $appointment->notes,
-                    'email' => $appointment->email,
-                    'phone' => $appointment->phone,
-                    'amount' => $appointment->amount,
-                    'status' => $appointment->status,
-                    'staff' => $appointment->employee->user->name ?? 'Unassigned',
                     'color' => $this->getStatusColor($appointment->status),
-                    'service_title' => $appointment->service->name ?? 'Service', // Add service title
-                    'name' => $appointment->name, // Add client name
-                    'notes' => $appointment->notes, // Add notes
+                    'extendedProps' => [
+                        'description' => $appointment->notes,
+                        'email' => $appointment->email,
+                        'phone' => $appointment->phone,
+                        'amount' => $appointment->amount,
+                        'status' => $appointment->status,
+                        'staff' => $appointment->employee->user->name ?? 'Unassigned',
+                        'service_title' => $appointment->service->name ?? 'Service',
+                        'name' => $appointment->name,
+                        'notes' => $appointment->notes,
+                    ]
                 ];
             } catch (\Exception $e) {
                 \Log::error("Format error for appointment {$appointment->id}: {$e->getMessage()}");
                 return null;
             }
-        })->filter();
+        })->filter()->values(); // Reindex the array after filtering
 
         return view('admin.dashboard', compact('appointments'));
 
