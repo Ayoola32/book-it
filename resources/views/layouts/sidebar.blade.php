@@ -41,7 +41,7 @@
                             <i class="ti ti-home"></i>
                         </span>
                         <span class="nav-link-title">
-                            Home
+                            Dashboard
                         </span>
                     </a>
                 </li>

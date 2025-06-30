@@ -26,7 +26,7 @@
     </div>
 
     <!-- Appointment Modal -->
-    <form id="appointmentStatusForm" method="POST" action="">
+    <form id="appointmentStatusForm" method="POST" action="{{ route('admin.appointment.update-status')}}">
         @csrf
         <input type="hidden" name="appointment_id" id="modalAppointmentId">
 
