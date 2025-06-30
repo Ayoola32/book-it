@@ -10,12 +10,72 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    function index2() : View
+    /**
+     * Display the Employee dashboard with formatted individual appointments.
+     */
+    public function index2(Request $request)
     {
-        return view('admin.dashboard');
+        $user = auth()->user();
+
+        $query = Appointment::with(['employee.user', 'service', 'user']);
+
+        if ($user->role === 'employee') {
+            $query->whereHas('employee', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            });
+        }
+
+        $appointments = $query->get()->map(function ($appointment) {
+            try {
+                if (!str_contains($appointment->booking_time ?? '', '-')) {
+                    throw new \Exception("Invalid time format");
+                }
+
+                $bookingDate = Carbon::parse($appointment->booking_date);
+                [$startTime, $endTime] = array_map('trim', explode('-', $appointment->booking_time));
+
+                $startDateTime = Carbon::createFromFormat('h:i A', $startTime)
+                    ->setDate($bookingDate->year, $bookingDate->month, $bookingDate->day);
+
+                $endDateTime = Carbon::createFromFormat('h:i A', $endTime)
+                    ->setDate($bookingDate->year, $bookingDate->month, $bookingDate->day);
+
+                if ($endDateTime->lt($startDateTime)) {
+                    $endDateTime->addDay();
+                }
+
+                return [
+                    'id' => $appointment->id,
+                    'title' => sprintf('%s - %s', $appointment->name, $appointment->service->name ?? 'Service'),
+                    'start' => $startDateTime->toIso8601String(),
+                    'end' => $endDateTime->toIso8601String(),
+                    'color' => $this->getStatusColor($appointment->status),
+                    'extendedProps' => [
+                        'description' => $appointment->notes,
+                        'email' => $appointment->email,
+                        'phone' => $appointment->phone,
+                        'amount' => $appointment->amount,
+                        'status' => $appointment->status,
+                        'staff' => $appointment->employee->user->name ?? 'Unassigned',
+                        'service_title' => $appointment->service->name ?? 'Service',
+                        'name' => $appointment->name,
+                        'notes' => $appointment->notes,
+                    ]
+                ];
+            } catch (\Exception $e) {
+                \Log::error("Format error for appointment {$appointment->id}: {$e->getMessage()}");
+                return null;
+            }
+        })->filter()->values();
+
+        return view('dashboard', compact('appointments'));
     }
 
 
+
+    /**
+     * Display the admin dashboard with all formatted appointments.
+     */
     public function index()
     {
         $user = auth()->user();
@@ -78,7 +138,7 @@ class DashboardController extends Controller
     }
 
 
-        // Helper function to get color based on status
+    // Helper function to get color based on status
     private function getStatusColor($status)
     {
         $colors = [
