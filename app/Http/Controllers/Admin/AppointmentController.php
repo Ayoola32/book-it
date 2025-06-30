@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\AppointmentDataTable;
 use App\Events\BookingCreated;
+use App\Events\StatusUpdated;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
@@ -131,6 +132,10 @@ class AppointmentController extends Controller
         
         $appointment->status = $request->status;
         $appointment->save();
+
+        // Notify the user about the status update
+        event(new StatusUpdated($appointment));
+
 
         return redirect()->back()->with('success', 'Appointment status updated successfully!');
     }
