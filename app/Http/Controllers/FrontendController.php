@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Category;
 use App\Models\Employee;
 use App\Models\ServiceSubCategory;
+use App\Models\Settings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Number;
@@ -37,19 +38,19 @@ class FrontendController extends Controller
 
     public function getServices(Request $request, Category $category)
     {
-        $setting_currency = 'GBP';
+        $settings = Settings::firstOrFail();
 
         $services = $category->services()
             ->where('status', 1)
             ->with('category')
             ->get()
-            ->map(function ($service) use ($setting_currency) {
+            ->map(function ($service) use ($settings) {
                 if (isset($service->price)) {
-                    $service->price = Number::currency($service->price, $setting_currency);
+                    $service->price = Number::currency($service->price, $settings->currency ?? 'USD');
                 }
 
                 if (isset($service->sale_price)) {
-                    $service->sale_price = Number::currency($service->sale_price, $setting_currency);
+                    $service->sale_price = Number::currency($service->sale_price, $settings->currency ?? 'USD');
                 }
 
                 return $service;
