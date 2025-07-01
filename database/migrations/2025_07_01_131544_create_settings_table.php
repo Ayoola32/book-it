@@ -13,6 +13,22 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
+            $table->string('bname');
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('currency')->nullable();
+            $table->string('address')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('favicon')->nullable();
+            $table->json('social')->nullable();
+            $table->string('copyright')->nullable();
+            $table->string('powered_by')->nullable();
+            $table->string('footer_info')->nullable();
+            $table->text('seo_title')->nullable();
+            $table->text('seo_description')->nullable();
+            $table->text('seo_keywords')->nullable();
+            $table->longText('map')->nullable();
+            $table->json('other')->nullable();
             $table->timestamps();
         });
     }
