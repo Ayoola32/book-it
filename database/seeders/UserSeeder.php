@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
                     'name' => fake()->name(),
                     'email' => "employee{$i}@example.com",
                     'password' => bcrypt('password'),
-                    'image' => 'uploads/images/avatar.png',
+                    'image' => 'uploads/users/avatar.png',
                     'phone' => fake()->phoneNumber(),
                     'role' => 'employee',
                 ]);

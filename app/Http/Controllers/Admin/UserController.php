@@ -50,7 +50,7 @@ class UserController extends Controller
             'phone' => $request->phone,
             'role' => $request->role ?? 'user',
             'password' => Hash::make('password'),
-            'image' => 'uploads/images/avatar.png',
+            'image' => 'uploads/users/avatar.png',
             'status' => $request->status ?? 0,
         ]);
 
