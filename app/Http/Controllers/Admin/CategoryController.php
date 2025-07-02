@@ -93,6 +93,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->slug = Str::slug($request->name);
         $category->status = $request->status;
+        $category->description = $request->description;
         $category->show_at_trending = $request->show_at_trending;
 
         // Prevent enabling show_at_trending if status is off
