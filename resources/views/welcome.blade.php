@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -219,7 +218,7 @@
     <footer>
         <div class="container pb-2">
             <div class="row text-center">
-            <span>Developed by <a href="#">Abusidiq</a></span>
+                <span>Developed by <a href="#">Abusidiq</a></span>
             </div>
         </div>
     </footer>
@@ -254,10 +253,10 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             const categories = @json($categories);
             const employees = @json($employees);
 
@@ -294,7 +293,7 @@
             container.html(html);
 
             // Category selection
-            $(document).on("click", ".category-card", function () {
+            $(document).on("click", ".category-card", function() {
                 $(".category-card").removeClass("selected");
                 $(this).addClass("selected");
 
@@ -313,7 +312,7 @@
 
 
             // Step navigation
-            $("#next-step").click(function () {
+            $("#next-step").click(function() {
                 const currentStep = bookingState.currentStep;
                 if (!validateStep(currentStep)) return;
                 if (currentStep < 5) {
@@ -327,7 +326,7 @@
                 }
             });
 
-            $("#prev-step").click(function () {
+            $("#prev-step").click(function() {
                 if (bookingState.currentStep > 1) goToStep(bookingState.currentStep - 1);
             });
 
@@ -340,7 +339,8 @@
                 const serviceId = $(this).data("service");
                 const serviceTitle = $(this).find('.card-title').text();
                 const servicePrice = $(this).find('.fw-bold').text();
-                const serviceDuration = $(this).find('.card-text:contains("Duration:")').text().replace('Duration: ', '');
+                const serviceDuration = $(this).find('.card-text:contains("Duration:")').text().replace(
+                    'Duration: ', '');
 
                 // Store the selected service in booking state
                 bookingState.selectedService = {
@@ -362,7 +362,9 @@
                 $("#employees-container").empty();
 
                 // Show loading state for employees
-                $("#employees-container").html('<div class="col-12 text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+                $("#employees-container").html(
+                    '<div class="col-12 text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>'
+                    );
 
                 // Update the employee step with employees for this service
                 updateEmployeesStep(serviceId);
@@ -370,7 +372,8 @@
                 // Show the employee step immediately (loading will happen inside updateEmployeesStep)
                 $("#services-step").addClass("d-none");
                 $("#employees-step").removeClass("d-none");
-                $(".step-indicator[data-step='services']").removeClass("active current").addClass("completed");
+                $(".step-indicator[data-step='services']").removeClass("active current").addClass(
+                    "completed");
                 $(".step-indicator[data-step='employees']").addClass("active current");
             });
 
@@ -624,7 +627,7 @@
                             // Update service name display
                             $(".selected-service-name").html(
                                 `Selected Service: ${service.name} (${bookingState.selectedService.price})`
-                                );
+                            );
 
                             // Clear employees container
                             $("#employees-container").empty();
@@ -651,7 +654,7 @@
                             });
                         } else {
                             $("#employees-container").html(
-                                '<div class="col-12 text-center py-5"><p>No employees available for this service.</p></div>'
+                                '<div class="text-center col-12 w-50 py-5"><div class="alert alert-info"><i class="bi bi-user me-2"></i> No employees available for this service.</div></div>'
                             );
                         }
                     },
