@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('icon')->nullable();
             $table->string('name')->unique();
             $table->string('slug')->unique();
+            $table->text('description')->nullable();
             $table->boolean('show_at_trending')->default(0);
             $table->boolean('status')->default(1);
             $table->timestamps();

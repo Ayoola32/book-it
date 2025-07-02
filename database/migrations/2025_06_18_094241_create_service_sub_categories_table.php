@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('name')->unique();
             $table->string('slug')->unique();
+            $table->text('description')->nullable();
             $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null');
             $table->decimal('price', 8, 2);
             $table->decimal('sale_price', 8, 2)->nullable();
