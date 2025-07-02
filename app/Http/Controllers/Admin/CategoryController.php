@@ -42,6 +42,7 @@ class CategoryController extends Controller
         $category = new Category();
         $category->name = $request->name;
         $category->slug = Str::slug($request->name);
+        $category->description = $request->description; 
         $category->status = $request->status;
         $category->show_at_trending = $request->show_at_trending;
         $category->image = $imagePath;

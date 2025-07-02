@@ -34,6 +34,12 @@
                                             <input type="file" class="form-control" name="image">
                                             <x-input-error :messages="$errors->get('image')" class="mt-2" />
                                         </div>
+                                        <div class="col-md-12 mt-2">
+                                            <label class="form-label required">Description</label>
+                                            <textarea class="form-control" name="description" rows="3"
+                                                placeholder="Enter a new category description">{{ old('description') }}</textarea>
+                                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                                        </div>
 
                                         <div class="col-md-6 mt-2">
                                             <x-input-toggle-block class="col-md-12 mt-3" name="status" label="Status" />
