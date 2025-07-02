@@ -645,7 +645,9 @@
                                                 }
                                             </div>
                                             <h5 class="card-title">${employee.user.name}</h5>
-                                            <p class="card-text text-muted">${employee.user.role || 'Professional'}</p>
+                                            <p class="card-text text-muted">
+                                                ${ employee.user.role ? (employee.user.role === 'employee' ? 'Professional' : employee.user.role) : 'Professional'}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
