@@ -49,6 +49,7 @@ class ServiceSubCategoryController extends Controller
         $service->name = $request->name;
         $service->slug = Str::slug($request->name);
         $service->status = $request->status;
+        $service->description = $request->description;
         $service->price = $request->price;
         $service->sale_price = $request->sale_price;
         $service->category_id = $category->id;
@@ -93,6 +94,7 @@ class ServiceSubCategoryController extends Controller
 
         $service->name = $request->name;
         $service->slug = Str::slug($request->name);
+        $service->description = $request->description;
         $service->status = $request->status;
         $service->price = $request->price;
         $service->sale_price = $request->sale_price;

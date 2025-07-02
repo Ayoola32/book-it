@@ -26,11 +26,16 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label required">Image</label>
-                                            <input type="file" class="form-control" name="image">
+                                            <input type="file" class="form-control mb-2" name="image">
                                             @if($service->image)
                                                 <img src="{{ asset($service->image) }}" alt="" class="img-fluid" style="max-width: 200px;">
                                             @endif
                                             <x-input-error :messages="$errors->get('image')" class="mt-2" />
+                                        </div>
+                                        <div class="col-md-12 mt-2 mb-2">
+                                            <label class="form-label required">Description</label>
+                                            <textarea class="form-control" name="description" rows="3" placeholder="Enter a description">{{ old('description', $service->description) }}</textarea>
+                                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
                                         </div>
                                         <div class="col-md-2 mt-2">
                                             <x-input-toggle-block class="col-md-12 mt-3" name="status" label="Status" />

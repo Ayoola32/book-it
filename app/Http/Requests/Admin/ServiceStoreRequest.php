@@ -24,6 +24,7 @@ class ServiceStoreRequest extends FormRequest
         return [
             'image' => ['required', 'image', 'mimes:png,jpeg,jpg,webp', 'max:3000'],
             'name' => ['required', 'string', 'max:255', 'unique:service_sub_categories,name'],
+            'description' => ['nullable', 'string', 'max:1000'],
             'status' => ['required', 'boolean'],
             'price' => ['required', 'numeric', 'min:0', 'max:999999.99'],
             'sale_price' => ['nullable', 'numeric', 'min:0', 'max:999999.99'],
