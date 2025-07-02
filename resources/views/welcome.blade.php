@@ -283,7 +283,7 @@
                     <div class="col">
                         <div class="card border h-100 category-card text-center rounded p-2" data-category="${category.slug}">
                             <div class="card-body">
-                                ${category.image ? `<img class="img-fluid w-25 mb-2" src="uploads/images/category/${category.image}">` : ""}
+                                ${category.image ? `<img class="img-fluid w-25 mb-2" src="uploads/category/${category.image}">` : ""}
                                 <h5 class="card-title">${category.name}</h5>
                                 <p class="card-text">${category.description ?? ''}</p>
                             </div>
@@ -565,7 +565,7 @@
                                     <div class="col animate-slide-in" style="animation-delay: ${index * 100}ms">
                                         <div class="card border h-100 service-card text-center p-2" data-service="${service.id}">
                                             <div class="card-body">
-                                                ${service.image ? `<img class="img-fluid rounded mb-2" src="uploads/images/service/${service.image}">` : ""}
+                                                ${service.image ? `<img class="img-fluid rounded mb-2" src="uploads/service/${service.image}">` : ""}
                                                 <h5 class="card-title mb-1">${service.name}</h5>
                                                 <p class="card-text mb-1">${service.description ?? ''}</p>
                                                 <p class="card-text">${priceDisplay}</p>
@@ -637,7 +637,7 @@
                                         <div class="card-body">
                                             <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
                                                 ${employee.user.image ?
-                                                    `<img src="uploads/images/profile/${employee.user.image}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">` :
+                                                    `<img src="/${employee.user.image}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">` :
                                                     `<i class="bi bi-person text-primary" style="font-size: 2rem;"></i>`
                                                 }
                                             </div>
