@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            // $table->foreignIdFor(User::class);
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->longText('bio')->nullable();
             $table->json('days')->nullable();
