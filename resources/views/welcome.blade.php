@@ -285,7 +285,7 @@
                             <div class="card-body">
                                 ${category.image ? `<img class="img-fluid w-25 mb-2" src="uploads/images/category/${category.image}">` : ""}
                                 <h5 class="card-title">${category.name}</h5>
-                                <p class="card-text">${category.description}</p>
+                                <p class="card-text">${category.description ?? ''}</p>
                             </div>
                         </div>
                     </div>
@@ -567,7 +567,7 @@
                                             <div class="card-body">
                                                 ${service.image ? `<img class="img-fluid rounded mb-2" src="uploads/images/service/${service.image}">` : ""}
                                                 <h5 class="card-title mb-1">${service.name}</h5>
-                                                <p class="card-text mb-1">${service.description}</p>
+                                                <p class="card-text mb-1">${service.description ?? ''}</p>
                                                 <p class="card-text">${priceDisplay}</p>
                                             </div>
                                         </div>
