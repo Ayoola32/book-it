@@ -146,28 +146,28 @@
                                         <div class="mb-3 row">
                                             <label for="inputFacebook" class="col-sm-2 col-form-label">Facebook</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="social[facebook]" class="form-control" id="inputFacebook" value="{{ $settings->social['facebook'] }}" placeholder="Facebook URL">
+                                                <input type="text" name="social[facebook]" class="form-control" id="inputFacebook" value="{{ $settings->social['facebook'] ?? ''}}" placeholder="Facebook URL">
                                                 <x-input-error :messages="$errors->get('social.facebook')" class="mt-2" />
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
                                             <label for="inputInstagram" class="col-sm-2 col-form-label">Instagram</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="social[instagram]" class="form-control" id="inputInstagram" value="{{ $settings->social['instagram'] }}" placeholder="Instagram URL">
+                                                <input type="text" name="social[instagram]" class="form-control" id="inputInstagram" value="{{ $settings->social['instagram'] ?? ''}}" placeholder="Instagram URL">
                                                 <x-input-error :messages="$errors->get('social.instagram')" class="mt-2" />
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
                                             <label for="inputTiktok" class="col-sm-2 col-form-label">TikTok</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="social[tiktok]" class="form-control" id="inputTiktok" value="{{ $settings->social['tiktok'] }}" placeholder="TikTok URL">
+                                                <input type="text" name="social[tiktok]" class="form-control" id="inputTiktok" value="{{ $settings->social['tiktok'] ?? ''}}" placeholder="TikTok URL">
                                                 <x-input-error :messages="$errors->get('social.tiktok')" class="mt-2" />
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
                                             <label for="inputtwitter" class="col-sm-2 col-form-label">Twitter(X)</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="social[twitter]" class="form-control" id="inputtwitter" value="{{ $settings->social['twitter'] }}" placeholder="TikTok URL">
+                                                <input type="text" name="social[twitter]" class="form-control" id="inputtwitter" value="{{ $settings->social['twitter'] ?? ''}}" placeholder="TikTok URL">
                                                 <x-input-error :messages="$errors->get('social.twitter')" class="mt-2" />
                                             </div>
                                         </div>
