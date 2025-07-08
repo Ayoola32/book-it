@@ -15,7 +15,12 @@ use Yajra\DataTables\Services\DataTable;
 class HolidayDataTable extends DataTable
 {
     protected ?int $employeeId = null;
+    protected bool $isAdmin;
 
+    public function __construct()
+    {
+        $this->isAdmin = auth('admin')->check();
+    }
     /**
      * Build the DataTable class.
      *
@@ -29,40 +34,48 @@ class HolidayDataTable extends DataTable
             'rejected' => '#ff0000',
             'approved' => '#008000',
         ];
-        return (new EloquentDataTable($query))
-            ->addIndexColumn()
-            ->addColumn('employee_id', function ($query) {
-                return '
-                    <span class="">' . $query->employee->user->name . '</span>
 
-                ';
-            })  
-            ->addColumn('status', function ($query) use ($statusColors) {
-                $status = $query->status;
-                $color = $statusColors[$status] ?? '#7f8c8d';
+        $dataTable = (new EloquentDataTable($query))->addIndexColumn();
 
-                return '
-                    <span class="badge px-2 py-1"
-                        style="background-color: ' . $color . '; color: white;">
-                        ' . $status . '
-                    </span>
-                ';
-            })
-            ->addColumn('action', function ($query) {
-                $pending = $query->status == 'pending' ? 'selected' : '';
-                $approved = $query->status == 'approved' ? 'selected' : '';
-                $rejected = $query->status == 'rejected' ? 'selected' : '';
-            
+        // Add name column only for admin
+        if ($this->isAdmin) {
+            $dataTable->addColumn('employee_id', function ($query) {
+                return '<span>' . $query->employee->user->name . '</span>';
+            });
+        }
+
+        $dataTable->addColumn('status', function ($query) use ($statusColors) {
+            $status = $query->status;
+            $color = $statusColors[$status] ?? '#7f8c8d';
+            return '<span class="badge px-2 py-1" style="background-color: ' . $color . '; color: white;">' . $status . '</span>';
+        });
+
+        // Add action column only for admin
+        if ($this->isAdmin) {
+            $dataTable->addColumn('action', function ($query) {
+                $approved = $query->status === 'approved' ? 'selected' : '';
+                $pending = $query->status === 'pending' ? 'selected' : '';
+                $rejected = $query->status === 'rejected' ? 'selected' : '';
+
                 return '
                     <select class="form-control form-control-sm status-select" data-id="' . $query->id . '" data-value="' . $query->status . '">
                         <option value="approved" ' . $approved . '>Approve</option>
-                        <option value="pending" ' . $rejected . '>Reject</option>
+                        <option value="pending" ' . $pending . '>Pending</option>
+                        <option value="rejected" ' . $rejected . '>Reject</option>
                     </select>
                 ';
-            })              
-            ->rawColumns(['employee_id', 'status', 'action'])
-            ->setRowId('id');
+            });
+        }
+
+        $columns = ['status'];
+        if ($this->isAdmin) {
+            $columns[] = 'employee_id';
+            $columns[] = 'action';
+        }
+
+        return $dataTable->rawColumns($columns)->setRowId('id');
     }
+
 
     /**
      * Set the employee ID for filtering appointments.
@@ -116,22 +129,28 @@ class HolidayDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
+        $columns = [
             Column::computed('DT_RowIndex')->title('#')->width(30)->addClass('text-center'),
-            Column::make('employee_id')->title('Full Name'),
             Column::make('start_date')->title('Start Date'),
             Column::make('end_date')->title('End Date'),
-            // Column::make('hours')->title('Hours'),
             Column::make('reason')->title('Reason'),
-            Column::make('feedback')->title('Feedback'),
-            // Column::make('description')->title('Description'),
             Column::make('status')->title('Status')->width(60),
-            Column::computed('action')
+        ];
+
+        if ($this->isAdmin) {
+            array_splice($columns, 1, 0, [
+                Column::make('employee_id')->title('Full Name'),
+            ]);
+
+            $columns[] = Column::make('feedback')->title('Feedback');
+            $columns[] = Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(160)
-                ->addClass('text-center'),
-        ];
+                ->addClass('text-center');
+        }
+
+        return $columns;
     }
 
     /**
