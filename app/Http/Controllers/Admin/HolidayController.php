@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\HolidayDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Holiday;
 use Illuminate\Http\Request;
 
 class HolidayController extends Controller
@@ -40,7 +41,21 @@ class HolidayController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'start_date' => ['required', 'date', 'after_or_equal:today'],
+            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
+            'reason' => ['nullable', 'string', 'max:1000']
+        ]);
+
+
+        Holiday::create([
+            'employee_id' => auth()->id(),
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'reason' => $request->reason,
+        ]);
+
+        return back()->with('success', 'Holiday request submitted.');
     }
 
     /**
