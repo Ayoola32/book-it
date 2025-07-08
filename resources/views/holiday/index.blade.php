@@ -7,6 +7,13 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">My Holidays</h3>
+
+                            <div class="card-actions">
+                                <a href="{{ route('employee.holiday.create')}}" class="btn btn-primary btn-3">
+                                    <i class="ti ti-plus"></i> 
+                                    Book New
+                                </a>
+                            </div>
                         </div>
 
 

@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('appointments', [AppointmentController::class, 'index2'])->name('employee.appointment.index');
     Route::post('/appointment/update-status', [AppointmentController::class, 'updateStatus'])->name('appointment.update-status');
     Route::get('/holiday', [HolidayController::class, 'index2'])->name('employee.holiday.index');
+    Route::get('/holiday/create', [HolidayController::class, 'create'])->name('employee.holiday.create');
 
 
 });

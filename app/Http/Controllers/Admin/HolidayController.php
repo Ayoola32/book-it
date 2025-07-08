@@ -32,7 +32,7 @@ class HolidayController extends Controller
      */
     public function create()
     {
-        //
+        return view('holiday.create');
     }
 
     /**
