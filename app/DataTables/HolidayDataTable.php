@@ -23,9 +23,44 @@ class HolidayDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+
+        $statusColors = [
+            'Pending' => '#f39c12',
+            'rejected' => '#ff0000',
+            'approved' => '#008000',
+        ];
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('action', 'holiday.action')
+            ->addColumn('employee_id', function ($query) {
+                return '
+                    <span class="">' . $query->employee->user->name . '</span>
+
+                ';
+            })  
+            ->addColumn('status', function ($query) use ($statusColors) {
+                $status = $query->status;
+                $color = $statusColors[$status] ?? '#7f8c8d';
+
+                return '
+                    <span class="badge px-2 py-1"
+                        style="background-color: ' . $color . '; color: white;">
+                        ' . $status . '
+                    </span>
+                ';
+            })
+            ->addColumn('action', function ($query) {
+                $pending = $query->status == 'pending' ? 'selected' : '';
+                $approved = $query->status == 'approved' ? 'selected' : '';
+                $rejected = $query->status == 'rejected' ? 'selected' : '';
+            
+                return '
+                    <select class="form-control form-control-sm status-select" data-id="' . $query->id . '" data-value="' . $query->status . '">
+                        <option value="approved" ' . $approved . '>Approve</option>
+                        <option value="pending" ' . $rejected . '>Reject</option>
+                    </select>
+                ';
+            })              
+            ->rawColumns(['employee_id', 'status', 'action'])
             ->setRowId('id');
     }
 
@@ -83,6 +118,7 @@ class HolidayDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')->title('#')->width(30)->addClass('text-center'),
+            Column::make('employee_id')->title('Full Name'),
             Column::make('start_date')->title('Start Date'),
             Column::make('end_date')->title('End Date'),
             // Column::make('hours')->title('Hours'),
