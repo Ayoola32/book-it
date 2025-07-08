@@ -11,6 +11,7 @@ class Employee extends Model
     protected $casts = [
         'days' => 'array',
         'social' => 'array',
+        'total_holiday_days',
     ];
 
 
