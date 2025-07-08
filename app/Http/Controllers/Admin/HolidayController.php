@@ -9,11 +9,22 @@ use Illuminate\Http\Request;
 class HolidayController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource in Admin.
      */
     public function index(HolidayDataTable $dataTable)
     {
         return $dataTable->render('admin.holiday.index');
+    }
+
+
+    /**
+     * Display Listings of holiday in employee dashboard.
+     */
+    public function index2(HolidayDataTable $dataTable)
+    {
+        $employeeId = auth()->user()->employee->id;
+
+        return $dataTable->forEmployee($employeeId)->render('holiday.index');
     }
 
     /**

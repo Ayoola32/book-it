@@ -62,4 +62,9 @@ class User extends Authenticatable
         return $this->hasMany(Appointment::class);
     }
 
+    public function holiday()
+    {
+        return $this->hasMany(Holiday::class);
+    }
+
 }

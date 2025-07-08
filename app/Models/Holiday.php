@@ -18,4 +18,9 @@ class Holiday extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

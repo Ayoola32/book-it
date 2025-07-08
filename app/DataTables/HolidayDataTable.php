@@ -14,6 +14,8 @@ use Yajra\DataTables\Services\DataTable;
 
 class HolidayDataTable extends DataTable
 {
+    protected ?int $employeeId = null;
+
     /**
      * Build the DataTable class.
      *
@@ -24,6 +26,18 @@ class HolidayDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', 'holiday.action')
             ->setRowId('id');
+    }
+
+    /**
+     * Set the employee ID for filtering appointments.
+     *
+     * @param int $employeeId
+     * @return static
+     */
+    public function forEmployee(int $employeeId): static
+    {
+        $this->employeeId = $employeeId;
+        return $this;
     }
 
     /**
