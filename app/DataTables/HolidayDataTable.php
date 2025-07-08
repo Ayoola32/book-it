@@ -24,6 +24,7 @@ class HolidayDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addIndexColumn()
             ->addColumn('action', 'holiday.action')
             ->setRowId('id');
     }
@@ -45,8 +46,13 @@ class HolidayDataTable extends DataTable
      */
     public function query(Holiday $model): QueryBuilder
     {
-        return $model->newQuery();
-    }
+        $query = $model->newQuery();
+
+        if ($this->employeeId) {
+            $query->where('employee_id', $this->employeeId);
+        }
+
+        return $query;    }
 
     /**
      * Optional method if you want to use the html builder.
@@ -58,8 +64,8 @@ class HolidayDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
+                    ->orderBy(0)
+                    // ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
@@ -76,15 +82,19 @@ class HolidayDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::computed('DT_RowIndex')->title('#')->width(30)->addClass('text-center'),
+            Column::make('start_date')->title('Start Date'),
+            Column::make('end_date')->title('End Date'),
+            // Column::make('hours')->title('Hours'),
+            Column::make('reason')->title('Reason'),
+            Column::make('feedback')->title('Feedback'),
+            // Column::make('description')->title('Description'),
+            Column::make('status')->title('Status')->width(60),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(160)
+                ->addClass('text-center'),
         ];
     }
 
