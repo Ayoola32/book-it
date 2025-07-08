@@ -95,42 +95,53 @@ class FrontendController extends Controller
             return response()->json(['error' => 'Slot duration not set for this employee'], 400);
         }
 
-        try {
-            // Function to ensure proper time formatting
-            function formatTimeRange($timeRange) {
-                // Handle appointment format (e.g., "06:00 AM - 06:30 AM")
-                if (str_contains($timeRange, 'AM') || str_contains($timeRange, 'PM')) {
-                    $timeRange = str_replace([' AM', ' PM', ' '], '', $timeRange);
-                }
-
-                $times = explode('-', $timeRange);
-                $formattedTimes = array_map(function ($time) {
-                    $parts = explode(':', $time);
-                    $hours = str_pad(trim($parts[0]), 2, '0', STR_PAD_LEFT);
-                    return $hours . ':' . $parts[1];
-                }, $times);
-
-                return implode('-', $formattedTimes);
+        // Time range formatting function
+        $formatTimeRange = function ($timeRange) {
+            if (str_contains($timeRange, 'AM') || str_contains($timeRange, 'PM')) {
+                $timeRange = str_replace([' AM', ' PM', ' '], '', $timeRange);
             }
 
-            // Process holidays expections
-            $holidaysExceptions = $employee->holidays->mapWithKeys(function ($holiday) {
+            $times = explode('-', $timeRange);
+            $formattedTimes = array_map(function ($time) {
+                $parts = explode(':', $time);
+                $hours = str_pad(trim($parts[0]), 2, '0', STR_PAD_LEFT);
+                return $hours . ':' . $parts[1];
+            }, $times);
+
+            return implode('-', $formattedTimes);
+        };
+
+        try {
+            // Build holiday exceptions for each booked day
+            $holidaysExceptions = [];
+
+            foreach ($employee->holidays as $holiday) {
+                if ($holiday->status !== 'approved') {
+                    continue;
+                }
+
+                $start = Carbon::parse($holiday->start_date);
+                $end = Carbon::parse($holiday->end_date);
+
                 $hours = !empty($holiday->hours)
-                    ? collect($holiday->hours)->map(function ($timeRange) {
-                        return formatTimeRange($timeRange);
+                    ? collect($holiday->hours)->map(function ($timeRange) use ($formatTimeRange) {
+                        return $formatTimeRange($timeRange);
                     })->toArray()
-                    : [];
+                    : []; // empty array blocks full day
 
-                return [$holiday->date => $hours];
-            })->toArray();
+                while ($start->lte($end)) {
+                    $holidaysExceptions[$start->toDateString()] = $hours;
+                    $start->addDay();
+                }
+            }
 
-            // using spatie opening hours package to process data and expections
+            // Create opening hours using Spatie package
             $openingHours = OpeningHours::create(array_merge(
-                $employee->days,
+                $employee->days ?? [], // base availability (e.g., Mon–Fri)
                 ['exceptions' => $holidaysExceptions]
             ));
 
-            // Get available time ranges for the requested date
+            // Get available time ranges for selected date
             $availableRanges = $openingHours->forDate($date);
 
             // If no availability for this date
@@ -138,13 +149,13 @@ class FrontendController extends Controller
                 return response()->json(['available_slots' => []]);
             }
 
-            // Generate time slots - NOW PASSING THE EMPLOYEE ID
+            // Generate slots
             $slots = $this->generateTimeSlots(
                 $availableRanges,
                 $employee->slot_duration,
                 $employee->break_duration ?? 0,
                 $date,
-                $employee->id  // This is the crucial addition
+                $employee->id
             );
 
             return response()->json([
@@ -154,9 +165,15 @@ class FrontendController extends Controller
                 'slot_duration' => $employee->slot_duration,
                 'break_duration' => $employee->break_duration,
             ]);
-
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error processing availability: ' . $e->getMessage()], 500);
+            \Log::error('Error fetching employee availability', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'error' => 'Error processing availability: ' . $e->getMessage()
+            ], 500);
         }
     }
 
