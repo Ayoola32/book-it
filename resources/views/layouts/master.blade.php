@@ -68,7 +68,62 @@
     @vite(['resources/js/app.js', 'resources/js/admin/admin.js'])
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
+            $('body').on('click', '.delete-item', function(e) {
+                e.preventDefault();
+                const deleteUrl = $(this).attr('href'); 
+                const button = $(this);
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: deleteUrl,
+                            data: {_token: "{{ csrf_token() }}"},
+                            success: function(response) {
+                                if (response.status === 'error') {
+                                    Swal.fire({
+                                        title: "Error!",
+                                        text: "Cannot Delete Holiday, it has been Approved or Rejected",
+                                        icon: "error"
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: response.message,
+                                        icon: "success"
+                                    });
+                                }
+                                $('#holiday-table').DataTable().ajax.reload(null, false); // ✅ Reloads table
+                            },
+                            error: function(xhr, status, error) {
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: "Something went wrong.",
+                                    icon: "error"
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
     @stack('scripts')
 

@@ -80,7 +80,18 @@ class HolidayDataTable extends DataTable
             });
         }
 
-        $columns = ['status', 'total_days'];
+        // Add delete btn foe only employees
+        if (!$this->isAdmin) {
+            $dataTable->addColumn('action-btn', function ($query) {
+                return '
+                    <a href="' . route('employee.holiday.destroy', $query->id) . '" class="btn-sm text-red delete-item">
+                        <i class="ti ti-trash"></i>
+                    </a>
+                ';
+            }); 
+        } 
+
+        $columns = ['status', 'total_days', 'action-btn'];
         if ($this->isAdmin) {
             $columns[] = 'employee_id';
             $columns[] = 'action';
@@ -163,6 +174,13 @@ class HolidayDataTable extends DataTable
                 ->width(160)
                 ->addClass('text-center');
         }
+
+        if (!$this->isAdmin) {
+            $columns[] = Column::computed('action-btn')
+                ->width(160)
+                ->addClass('text-center');
+        }
+
 
         return $columns;
     }

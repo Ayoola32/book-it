@@ -156,6 +156,20 @@ class HolidayController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $holiday = Holiday::where('id', $id)->firstOrFail();
+
+  
+        if ($holiday->status === 'approved' || $holiday->status === 'rejected') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Cannot delete holiday with approved or rejected status.'
+            ]);
+        }
+
+        $holiday->delete();
+
+        return response()->json([
+            'message' => 'Deleted successfully'
+        ]);
     }
 }
