@@ -103,6 +103,20 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-6 mb-2">
+                                                <div class="form-group">
+                                                    <label class="form-label">Holiday</label>
+                                                    <select name="total_holiday_days" class="form-control">
+                                                        <option value="">No Holiday</option>
+                                                        @foreach (['5', '15', '20', '28', '30', '31', '33', '35'] as $day)
+                                                            <option value="{{ $day }}" {{ old('total_holiday_days') == $day ? 'selected' : '' }}>
+                                                                {{ $day }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <x-input-error :messages="$errors->get('total_holiday_days')" class="mt-2" />
+                                                </div>
+                                            </div>
 
                                             <div class="row">
                                                 <div class="mb-3 mt-3">

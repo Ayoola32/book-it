@@ -36,6 +36,7 @@ class UserUpdateRequest extends FormRequest
                 'service' => ['nullable', 'array'],
                 'slot_duration' => ['nullable', 'integer', 'min:10', 'max:60'],
                 'break_duration' => ['nullable', 'integer', 'min:5', 'max:30'],
+                'total_holiday_days' => ['nullable', 'integer', 'min:5', 'max:35'],
             ]);
         }
 

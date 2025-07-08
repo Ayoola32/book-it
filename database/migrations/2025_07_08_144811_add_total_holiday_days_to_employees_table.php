@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->integer('total_holiday_days')->default(28)
+            $table->unsignedInteger('total_holiday_days')->default(28)
                 ->after('break_duration');
         });
     }

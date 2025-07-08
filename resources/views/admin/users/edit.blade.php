@@ -104,6 +104,20 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-6 mb-2">
+                                                <div class="form-group">
+                                                    <label class="form-label">Holiday (days)</label>
+                                                    <select name="total_holiday_days" class="form-control">
+                                                        <option value="">No Holiday</option>
+                                                        @foreach (['5', '15', '20', '28', '30', '31', '33', '35'] as $day)
+                                                            <option value="{{ $day }}" {{ old('holiday_duration', $employee?->total_holiday_days) == $day ? 'selected' : '' }}>
+                                                                {{ $day }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
 
 
                                             <div class="row">

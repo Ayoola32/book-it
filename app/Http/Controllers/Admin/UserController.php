@@ -65,6 +65,7 @@ class UserController extends Controller
                 'user_id'           => $user['id'],
                 'slot_duration'     => $request['slot_duration'],
                 'break_duration'    => $request['break_duration'],
+                'total_holiday_days'  => $request['total_holiday_days'],
                 'days'              => $transformedDays,
             ]);
 
@@ -139,6 +140,7 @@ class UserController extends Controller
                 [
                     'slot_duration' => $request->input('slot_duration') ?? 30,
                     'break_duration' => $request->input('break_duration') ?? 10,
+                    'total_holiday_days' => $request->input('total_holiday_days') ?? 28,
                     'days'           => $transformedDays,
                 ]
             );
