@@ -82,6 +82,33 @@ class HolidayController extends Controller
         //
     }
 
+
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:approved,rejected',
+            'feedback' => 'nullable|string|max:1000',
+        ]);
+
+        $holiday = Holiday::findOrFail($id);
+
+        if (in_array($holiday->status, ['approved', 'rejected'])) {
+            return response()->json(['error' => 'Cannot update approved/rejected request.'], 403);
+        }
+
+        $holiday->update([
+            'status' => $request->status,
+            'feedback' => $request->feedback,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+
+
+
+
     /**
      * Remove the specified resource from storage.
      */

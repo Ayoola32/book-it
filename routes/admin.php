@@ -83,5 +83,8 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::resource('/settings', SettingsController::class);
 
     Route::resource('/holiday', HolidayController::class);
+    Route::post('/holiday/{id}/update', [HolidayController::class, 'updateStatus'])->name('holidays.update');
+
+
 
 });
