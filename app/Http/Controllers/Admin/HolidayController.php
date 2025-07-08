@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\HolidayDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class Holiday extends Controller
+class HolidayController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(HolidayDataTable $dataTable)
     {
-        //
+        return $dataTable->render('admin.holiday.index');
     }
 
     /**
