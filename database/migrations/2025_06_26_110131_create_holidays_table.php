@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('holidays', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('cascade');
-            $table->string('date');
-            $table->json('hours')->nullable();
-            $table->boolean('recurring')->default(0);
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->json('hours')->nullable(); // for partial-day holidays
+            $table->text('reason')->nullable();
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->text('feedback')->nullable();
+            $table->boolean('recurring')->default(false);
             $table->text('description')->nullable();
             $table->timestamps();
         });

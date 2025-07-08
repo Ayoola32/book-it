@@ -9,7 +9,8 @@ class Holiday extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'hours' => 'array'
+        'hours' => 'array',
+        'user_id', 'start_date', 'end_date', 'reason', 'status', 'feedback'
     ];
 
 

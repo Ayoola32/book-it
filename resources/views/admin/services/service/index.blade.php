@@ -1,4 +1,4 @@
-<h1>hello</h1>@extends('admin.layouts.master')
+@extends('admin.layouts.master')
 @section('content')
     <div class="page-body">
         <div class="container-xl">
