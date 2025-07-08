@@ -87,8 +87,8 @@ class HolidayController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:approved,rejected',
-            'feedback' => 'nullable|string|max:1000',
+            'status' => ['required', 'in:approved,rejected'],
+            'feedback' => $request->status === 'rejected' ? ['required', 'string', 'max:1000'] : ['nullable', 'string', 'max:1000'],
         ]);
 
         $holiday = Holiday::findOrFail($id);
