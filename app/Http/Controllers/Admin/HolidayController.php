@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\HolidayDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use App\Models\Holiday;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HolidayController extends Controller
@@ -47,15 +49,55 @@ class HolidayController extends Controller
             'reason' => ['nullable', 'string', 'max:1000']
         ]);
 
+        [$holidayYearStart, $holidayYearEnd] = Employee::getCurrentHolidayYearRange();
 
+        if (
+            Carbon::parse($request->start_date)->lt($holidayYearStart) ||
+            Carbon::parse($request->end_date)->gt($holidayYearEnd)
+        ) {
+            return redirect()->back()->with('error', "You can only book holidays within the current holiday year ({$holidayYearStart->toDateString()} to {$holidayYearEnd->toDateString()}).");
+        }
+
+
+        $employee = auth()->user()->employee;
+        $employeeId = $employee->id;
+
+        //Check for overlapping holidays
+        $overlap = Holiday::where('employee_id', $employeeId)
+            ->whereIn('status', ['approved', 'pending'])
+            ->where(function ($query) use ($request) {
+                $query->whereDate('start_date', '<=', $request->end_date)
+                    ->whereDate('end_date', '>=', $request->start_date);
+            })
+            ->exists();
+
+        if ($overlap) {
+            return redirect()->back()->with('error', 'You already have a holiday booked in that period.');
+        }
+
+        // Calculate requested days
+        $requestedDays = Carbon::parse($request->start_date)
+            ->diffInDays(Carbon::parse($request->end_date)) + 1;
+
+        // Check if the employee has enough balance
+        $usedDays = $employee->used_holiday_days; // accessor from step 2
+        $remaining = $employee->total_holiday_days - $usedDays;
+
+        if ($requestedDays > $remaining) {
+            return redirect()->back()->with('error', "You only have {$remaining} holiday day(s) left.");
+
+        }
+
+        // Save request
         Holiday::create([
-            'employee_id' => auth()->id(),
+            'employee_id' => $employeeId,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'reason' => $request->reason,
+            'status' => 'pending',
         ]);
 
-        return back()->with('success', 'Holiday request submitted.');
+        return redirect()->route('employee.holiday.index')->with('success', 'Holiday request submitted.');
     }
 
     /**

@@ -44,10 +44,23 @@ class HolidayDataTable extends DataTable
             });
         }
 
+        $dataTable->editColumn('start_date', function ($query) {
+            return $query->start_date->format('d-m-Y'); // or 'd/m/Y' or 'M j, Y'
+        });
+
+        $dataTable->editColumn('end_date', function ($query) {
+            return $query->end_date->format('d-m-Y');
+        });
+
+
         $dataTable->addColumn('status', function ($query) use ($statusColors) {
             $status = $query->status;
             $color = $statusColors[$status] ?? '#7f8c8d';
             return '<span class="badge px-2 py-1" style="background-color: ' . $color . '; color: white;">' . $status . '</span>';
+        });
+
+        $dataTable->addColumn('total_days', function ($query) {
+            return $query->total_days . ' day' . ($query->total_days > 1 ? 's' : '');
         });
 
         // Add action column only for admin
@@ -67,7 +80,7 @@ class HolidayDataTable extends DataTable
             });
         }
 
-        $columns = ['status'];
+        $columns = ['status', 'total_days'];
         if ($this->isAdmin) {
             $columns[] = 'employee_id';
             $columns[] = 'action';
@@ -133,6 +146,7 @@ class HolidayDataTable extends DataTable
             Column::computed('DT_RowIndex')->title('#')->width(30)->addClass('text-center'),
             Column::make('start_date')->title('Start Date'),
             Column::make('end_date')->title('End Date'),
+            Column::make('total_days')->title('Days Booked'),
             Column::make('reason')->title('Reason'),
             Column::make('status')->title('Status')->width(60),
         ];
