@@ -107,8 +107,10 @@
                     notyf.success('Status updated successfully');
                     $('#holiday-table').DataTable().ajax.reload(); // Reload the datatable
                 },
-                error: function (xhr) {
-                    notyf.error('Failed to update status');
+               error: function (xhr) {
+                    const response = xhr.responseJSON;
+                    const message = response?.error || 'Failed to update status';
+                    notyf.error(message);
                 }
             });
         }

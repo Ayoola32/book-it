@@ -135,8 +135,23 @@ class HolidayController extends Controller
 
         $holiday = Holiday::findOrFail($id);
 
+        // Prevent re-approval or re-rejection
         if (in_array($holiday->status, ['approved', 'rejected'])) {
-            return response()->json(['error' => 'Cannot update approved/rejected request.'], 403);
+            return response()->json(['error' => 'Cannot update a request that has already been approved or rejected.'], 403);
+        }
+
+        // Only check balance if approving
+        if ($request->status === 'approved') {
+            $employee = $holiday->employee; // Make sure there's a `employee()` relationship on Holiday model
+
+            $requestedDays = $holiday->start_date->diffInDays($holiday->end_date) + 1;
+            $remaining = $employee->remaining_holiday_days;
+
+            if ($requestedDays > $remaining) {
+                return response()->json([
+                    'error' => "This employee only has {$remaining} day(s) left. Cannot approve {$requestedDays} days.",
+                ], 422);
+            }
         }
 
         $holiday->update([
