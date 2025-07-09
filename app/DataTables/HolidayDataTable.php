@@ -37,6 +37,10 @@ class HolidayDataTable extends DataTable
 
         $dataTable = (new EloquentDataTable($query))->addIndexColumn();
 
+        $dataTable->editColumn('created_at', function ($query) {
+            return $query->created_at->format('d-m-Y');
+        });
+
         // Add name column only for admin
         if ($this->isAdmin) {
             $dataTable->addColumn('employee_id', function ($query) {
@@ -158,19 +162,20 @@ class HolidayDataTable extends DataTable
     {
         $columns = [
             Column::computed('DT_RowIndex')->title('#')->width(30)->addClass('text-center'),
+            Column::make('created_at')->title('Booked Date'),
             Column::make('start_date')->title('Start Date'),
             Column::make('end_date')->title('End Date'),
             Column::make('total_days')->title('Days Booked'),
             Column::make('reason')->title('Reason'),
             Column::make('status')->title('Status')->width(60),
+            Column::make('feedback')->title('Feedback'),
         ];
 
         if ($this->isAdmin) {
-            array_splice($columns, 1, 0, [
+            array_splice($columns, 2, 0, [
                 Column::make('employee_id')->title('Full Name'),
             ]);
 
-            $columns[] = Column::make('feedback')->title('Feedback');
             $columns[] = Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
