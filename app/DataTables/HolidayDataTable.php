@@ -67,6 +67,10 @@ class HolidayDataTable extends DataTable
             return $query->total_days . ' day' . ($query->total_days > 1 ? 's' : '');
         });
 
+        $dataTable->addColumn('remaining_holiday_days', function ($query) {
+            return $query->employee->remaining_holiday_days . ' day' . ($query->employee->remaining_holiday_days > 1 ? 's' : '');
+        });
+
         // Add action column only for admin
         if ($this->isAdmin) {
             $dataTable->addColumn('action', function ($query) {
@@ -95,7 +99,7 @@ class HolidayDataTable extends DataTable
             }); 
         } 
 
-        $columns = ['status', 'total_days', 'action-btn'];
+        $columns = ['status', 'total_days', 'remaining_holiday_days', 'action-btn'];
         if ($this->isAdmin) {
             $columns[] = 'employee_id';
             $columns[] = 'action';
@@ -174,6 +178,9 @@ class HolidayDataTable extends DataTable
         if ($this->isAdmin) {
             array_splice($columns, 2, 0, [
                 Column::make('employee_id')->title('Full Name'),
+            ]);
+            array_splice($columns, 6, 0, [
+                Column::make('remaining_holiday_days')->title('Holiday Balance'),
             ]);
 
             $columns[] = Column::computed('action')
