@@ -38,7 +38,8 @@
                                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
                                         </div>
                                         <div class="col-md-2 mt-2">
-                                            <x-input-toggle-block class="col-md-12 mt-3" name="status" label="Status" />
+                                            <x-input-toggle-block class="col-md-12 mt-3" name="status" label="Status" 
+                                            :checked="$service->status"/>
                                         </div>
                                         <div class="col-md-5 mt-2">
                                             <label class="form-label required">Price</label>
