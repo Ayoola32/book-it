@@ -154,6 +154,14 @@ class UserController extends Controller
                 ->toArray();
 
             $employee->services()->sync($flatServices);
+
+
+            [$start, $end] = Employee::getCurrentHolidayYearRange();
+
+            $employee->holidayBalances()
+                ->where('holiday_year_start', $start->toDateString())
+                ->update(['total_days' => $employee->total_holiday_days]);
+
             
         }
 

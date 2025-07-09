@@ -106,7 +106,7 @@
 
                                             <div class="col-md-6 mb-2">
                                                 <div class="form-group">
-                                                    <label class="form-label">Holiday (days)</label>
+                                                    <label class="form-label">Holiday (days)- Current year's entitlement is : <b>{{ $employee->currentHolidayBalance()?->total_days }}</b></label>
                                                     <select name="total_holiday_days" class="form-control">
                                                         <option value="">No Holiday</option>
                                                         @foreach (['5', '15', '20', '28', '30', '31', '33', '35'] as $day)
