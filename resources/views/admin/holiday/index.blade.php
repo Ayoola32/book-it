@@ -57,27 +57,6 @@
             dismissible: true 
         });
 
-        // $(document).on('change', '.status-select', function() {
-        //     var id = $(this).data('id');
-        //     var status = $(this).val();
-
-
-        //     $.ajax({
-        //         url: '{{ route('admin.holidays.update', ':id') }}'.replace(':id', id),
-        //         type: 'POST',
-        //         data: {
-        //             status: status,
-        //             _token: $('meta[name="csrf-token"]').attr('content')
-        //         },
-        //         success: function(response) {
-        //             notyf.success('Holida Status updated successfully');
-        //             $('#holiday-table').DataTable().ajax.reload(null, false); // ✅ Good: Reloads table
-        //         },
-        //         error: function(xhr) {
-        //             notyf.error('Failed to update status');
-        //         }
-        //     });
-        // });
 
         $(document).on('change', '.status-select', function () {
             var id = $(this).data('id');

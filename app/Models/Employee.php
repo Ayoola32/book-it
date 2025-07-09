@@ -54,27 +54,6 @@ class Employee extends Model
         return [$start, $end];
     }
 
-    // public function getUsedHolidayDaysAttribute(): int
-    // {
-    //     [$yearStart, $yearEnd] = self::getCurrentHolidayYearRange();
-
-    //     return $this->holidays()
-    //         ->where('status', 'approved')
-    //         ->whereDate('start_date', '>=', $yearStart)
-    //         ->whereDate('end_date', '<=', $yearEnd)
-    //         ->get()
-    //         ->sum(function ($holiday) {
-    //             return $holiday->start_date->diffInDays($holiday->end_date) + 1;
-    //         });
-    // }
-
-
-    // public function getRemainingHolidayDaysAttribute(): int
-    // {
-    //     return max(0, $this->total_holiday_days - $this->used_holiday_days);
-    // }
-
-
 
     public function holidayBalances()
     {
@@ -89,8 +68,6 @@ class Employee extends Model
             ->where('holiday_year_start', $start->toDateString())
             ->first();
     }
-
-
 
 
     public function getUsedHolidayDaysAttribute(): int
