@@ -71,11 +71,6 @@ class ServiceSubCategoryDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    // public function query(ServiceSubCategory $model): QueryBuilder
-    // {
-    //     return $model->newQuery();
-    // }
-
     public function query(ServiceSubCategory $model): QueryBuilder
     {
         // Resolve category_id from slug
@@ -101,9 +96,12 @@ class ServiceSubCategoryDataTable extends DataTable
                     ->setTableId('servicesubcategory-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
                     ->orderBy(0)
-                    // ->selectStyleSingle()
+                    ->parameters([
+                        'scrollX' => true, 
+                        'autoWidth' => false, 
+                        'responsive' => true,
+                    ])   
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),

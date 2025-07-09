@@ -135,9 +135,12 @@ class HolidayDataTable extends DataTable
                     ->setTableId('holiday-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
                     ->orderBy(0)
-                    // ->selectStyleSingle()
+                    ->parameters([
+                        'scrollX' => true, 
+                        'autoWidth' => false, 
+                        'responsive' => true,
+                    ])
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
