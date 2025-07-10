@@ -17,17 +17,20 @@
                     <span class="avatar avatar-sm"
                         style="background-image: url(./static/avatars/000m.jpg)"></span>
                     <div class="d-none d-xl-block ps-2">
-                        <div>Paweł Kuna</div>
+                        <div>{{ Auth::user()->name}}</div>
                         <div class="mt-1 small text-secondary">UI Designer</div>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <a href="#" class="dropdown-item">Status</a>
-                    <a href="" class="dropdown-item">Profile</a>
-                    <a href="#" class="dropdown-item">Feedback</a>
+                    <a href="{{ route('admin.profile')}}" class="dropdown-item">Profile</a>
                     <div class="dropdown-divider"></div>
-                    <a href="" class="dropdown-item">Settings</a>
-                    <a href=" class="dropdown-item">Logout</a>
+                    <a href="{{ route('admin.settings.index' )}}" class="dropdown-item">Settings</a>
+                    <a href="" onclick="event.preventDefault(); getElementById('logout').submit();"
+                        class="dropdown-item">Logout</a>
+                    <!-- Authentication -->
+                    <form method="POST" id="logout" action="{{ route('admin.logout') }}">
+                        @csrf
+                    </form>
                 </div>
             </div>
         </div>
@@ -49,7 +52,7 @@
                     <a class="nav-link" href="{{ route('admin.appointment.index') }}">
                         <span
                             class="nav-link-icon d-md-none d-lg-inline-block">
-                            <i class="ti ti-home"></i>
+                            <i class="ti ti-calendar"></i>
                         </span>
                         <span class="nav-link-title">
                             Appointments
@@ -61,7 +64,7 @@
                         data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span
                             class="nav-link-icon d-md-none d-lg-inline-block">
-                            <i class="ti ti-user"></i>
+                            <i class="ti ti-users"></i>
                         </span>
                         <span class="nav-link-title">
                             Users Management
@@ -86,7 +89,7 @@
                     <a class="nav-link" href="{{ route('admin.holiday.index')}}">
                         <span
                             class="nav-link-icon d-md-none d-lg-inline-block">
-                            <i class="ti ti-calendar"></i>
+                            <i class="ti ti-luggage"></i>
                         </span>
                         <span class="nav-link-title">
                             Holidays
@@ -108,7 +111,7 @@
                     <a class="nav-link" href="{{ route('admin.profile') }}">
                         <span
                             class="nav-link-icon d-md-none d-lg-inline-block">
-                            <i class="ti ti-settings"></i>
+                            <i class="ti ti-user"></i>
                         </span>
                         <span class="nav-link-title">
                             Profile
