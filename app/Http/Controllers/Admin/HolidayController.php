@@ -27,7 +27,7 @@ class HolidayController extends Controller
     {
         $employeeId = auth()->user()->employee->id;
 
-        return $dataTable->forEmployee($employeeId)->render('holiday.index');
+        return $dataTable->forEmployee($employeeId)->render('employee.holiday.index');
     }
 
     /**
@@ -35,7 +35,7 @@ class HolidayController extends Controller
      */
     public function create()
     {
-        return view('holiday.create');
+        return view('employee.holiday.create');
     }
 
     /**

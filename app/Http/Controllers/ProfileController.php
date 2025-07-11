@@ -45,7 +45,7 @@ class ProfileController extends Controller
 
 
 
-        return view('profile.index', compact('user', 'days', 'employeeDays', 'employee'));
+        return view('employee.profile.index', compact('user', 'days', 'employeeDays', 'employee'));
     }
 
     /**

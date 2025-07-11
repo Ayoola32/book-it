@@ -68,7 +68,7 @@ class DashboardController extends Controller
             }
         })->filter()->values();
 
-        return view('dashboard', compact('appointments'));
+        return view('employee.dashboard', compact('appointments'));
     }
 
 

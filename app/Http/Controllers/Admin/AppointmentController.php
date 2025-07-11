@@ -26,7 +26,7 @@ class AppointmentController extends Controller
     {
         $employeeId = auth()->user()->employee->id;
 
-        return $dataTable->forEmployee($employeeId)->render('appointments.index');
+        return $dataTable->forEmployee($employeeId)->render('employee.appointments.index');
     }
 
 
