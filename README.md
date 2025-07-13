@@ -10,3 +10,4 @@
 A flexible and professional appointment booking solution tailored for Doctors, Consultants, Salons, Spas, Legal Practitioners, Tutors, Career Coaches, Personal Trainers, Nutritionists, Home Service Providers, Plumbers, Electricians, Automotive Experts, and other professionals. It offers features such as automated email notifications, multi-role user access, calendar-based scheduling, availability control, and holiday management.
 
 #### Features:
+
